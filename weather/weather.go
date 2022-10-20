@@ -10,40 +10,37 @@ import (
 	"time"
 )
 
-var Conf = Config{}
 var CurrentOpenWeather = OpenWeatherApiResponse{}
 
-func NewWeather() {
-	config.ParseViperConfig(&Conf, config.AddViperConfig("weather"))
-	if Conf.OpenWeather.Key != "" {
-		setWeatherUnits()
-		go updateWeather(time.Second * 150)
-	}
+func NewWeather() *Config {
+	conf := Config{}
+	config.ParseViperConfig(&conf, config.AddViperConfig("weather"))
+	return &conf
 }
 
-func setWeatherUnits() {
-	if Conf.OpenWeather.Units == "imperial" {
+func (conf *Config) SetWeatherUnits() {
+	if conf.OpenWeather.Units == "imperial" {
 		CurrentOpenWeather.Units = "°F"
 	} else {
 		CurrentOpenWeather.Units = "°C"
 	}
 }
 
-func calcTimestamps() {
+func calcWeatherTimestamps() {
 	myTime := time.Unix(CurrentOpenWeather.Sys.Sunrise, 0)
 	CurrentOpenWeather.Sys.StrSunrise = myTime.Format("15:04")
 	myTime = time.Unix(CurrentOpenWeather.Sys.Sunset, 0)
 	CurrentOpenWeather.Sys.StrSunset = myTime.Format("15:04")
 }
 
-func updateWeather(interval time.Duration) {
+func (conf *Config) UpdateWeather(interval time.Duration) {
 	for {
 		resp, err := http.Get(fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s&lang=%s",
-			Conf.Location.Latitude,
-			Conf.Location.Longitude,
-			Conf.OpenWeather.Key,
-			Conf.OpenWeather.Units,
-			Conf.OpenWeather.Lang))
+			conf.Location.Latitude,
+			conf.Location.Longitude,
+			conf.OpenWeather.Key,
+			conf.OpenWeather.Units,
+			conf.OpenWeather.Lang))
 		if err != nil {
 			logrus.Error("weather cannot be updated")
 		} else {
@@ -54,7 +51,7 @@ func updateWeather(interval time.Duration) {
 			} else {
 				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentOpenWeather.Main.Temp, CurrentOpenWeather.Units), "location": CurrentOpenWeather.Name}).Trace("weather updated")
 			}
-			calcTimestamps()
+			calcWeatherTimestamps()
 			resp.Body.Close()
 		}
 		time.Sleep(interval)
