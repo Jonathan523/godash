@@ -6,5 +6,5 @@ import (
 
 func setupRouter(router *chi.Mux) {
 	router.Get("/", launchpad)
-	router.Get("/static/style.css", serveStyleCss)
+	serveStatic(router, "static")
 }

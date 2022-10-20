@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "tailwind": "npx tailwindcss -i ./static/input.css -o ./static/style.css --watch"
+    "dev": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
+    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css"
   },
   "devDependencies": {
     "prettier": "^2.7.1",
