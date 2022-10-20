@@ -1,9 +1,9 @@
 package main
 
 import (
-	"launchpad/logging"
-	"launchpad/server"
-	"launchpad/weather"
+	"godash/logging"
+	"godash/server"
+	"godash/weather"
 )
 
 func main() {

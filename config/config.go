@@ -4,7 +4,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"launchpad/message"
+	"godash/message"
 	"strings"
 )
 

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"godash/config"
 	"io"
-	"launchpad/config"
 	"net/http"
 	"time"
 )

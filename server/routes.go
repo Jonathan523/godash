@@ -1,9 +1,9 @@
 package server
 
 import (
-	"launchpad/bookmark"
-	"launchpad/files"
-	"launchpad/weather"
+	"godash/bookmark"
+	"godash/files"
+	"godash/weather"
 	"net/http"
 )
 

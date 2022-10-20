@@ -2,7 +2,7 @@ package logging
 
 import (
 	"github.com/sirupsen/logrus"
-	"launchpad/config"
+	"godash/config"
 )
 
 func NewGlobalLogger() {

@@ -1,4 +1,4 @@
-module launchpad
+module godash
 
 go 1.19
 

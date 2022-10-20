@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"launchpad/config"
-	"launchpad/message"
+	"godash/config"
+	"godash/message"
 	"net/http"
 )
 
