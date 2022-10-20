@@ -12,7 +12,7 @@ func main() {
 	w := weather.NewWeather()
 	if w.OpenWeather.Key != "" {
 		w.SetWeatherUnits()
-		go w.UpdateWeather(time.Second * 150)
+		go w.UpdateWeather(time.Second * 90)
 	}
 	s := server.NewServer()
 	s.Listen()
