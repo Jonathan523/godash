@@ -8,9 +8,9 @@ import (
 	"strings"
 )
 
-func serveStatic(r chi.Router, folder string) {
+func (server *Server) serveStatic(folder string) {
 	workDir, _ := os.Getwd()
-	fileServer(r, "/"+folder, http.Dir(filepath.Join(workDir, folder)))
+	fileServer(server.Router, "/"+folder, http.Dir(filepath.Join(workDir, folder)))
 }
 
 func fileServer(r chi.Router, path string, root http.FileSystem) {

@@ -56,6 +56,9 @@
   {{ end }}
 
 
+  <div id="system"></div>
+  <div id="weather"></div>
+
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
     {{ range .Bookmarks }}
       <a
@@ -69,4 +72,20 @@
       </a>
     {{ end }}
   </div>
+{{ end }}
+
+{{ define "scripts" }}
+  <script lang="ts">
+    const WsType = { Weather: 0, System: 1 };
+    let socket = new WebSocket(window.location.origin.replace("http", "ws") + "/system/ws");
+
+    socket.onmessage = (event) => {
+      const parsed = JSON.parse(event.data);
+      if (parsed.ws_type === WsType.Weather) {
+        document.getElementById("weather").innerHTML = event.data;
+      } else if (parsed.ws_type === WsType.System) {
+        document.getElementById("system").innerHTML = event.data;
+      }
+    };
+  </script>
 {{ end }}

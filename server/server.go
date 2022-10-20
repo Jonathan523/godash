@@ -19,8 +19,8 @@ func NewServer() *Server {
 	server := Server{}
 	config.ParseViperConfig(&server, config.AddViperConfig("server"))
 	server.Router = chi.NewRouter()
-	setupMiddlewares(server.Router)
-	setupRouter(server.Router)
+	server.setupMiddlewares()
+	server.setupRouter()
 	return &server
 }
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"godash/config"
+	"godash/hub"
 	"io"
 	"net/http"
 	"time"
@@ -54,6 +55,7 @@ func (conf *Config) UpdateWeather(interval time.Duration) {
 			calcWeatherTimestamps()
 			resp.Body.Close()
 		}
+		hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentOpenWeather}
 		time.Sleep(interval)
 	}
 }
