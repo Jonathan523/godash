@@ -203,5 +203,5 @@ Temporary Items
 .apdisk
 
 # User specific
-static/css/output.css
-
+.idea/
+static/style.css

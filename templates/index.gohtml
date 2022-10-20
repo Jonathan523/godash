@@ -1,0 +1,12 @@
+{{ template "base" . }}
+
+{{ define "title" }}
+  {{ .Title }}
+{{ end }}
+
+
+<div class="bg-gray-500">
+  {{ range .Bookmarks }}
+    {{ . }}
+  {{ end }}
+</div>

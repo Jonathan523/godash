@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./static/input.css -o ./static/style.css --watch"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "prettier-plugin-go-template": "^0.0.13",
+    "tailwindcss": "^3.2.0"
+  },
+  "prettier": {
+    "printWidth": 160
+  }
+}
