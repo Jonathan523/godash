@@ -8,15 +8,13 @@ import (
 	"io"
 	"launchpad/message"
 	"os"
+	"strings"
 )
-
-type Service struct {
-	Bookmarks []Bookmark
-}
 
 var Bookmarks []Bookmark
 
 const StorageDir = "storage/"
+const IconsDir = StorageDir + "icons/"
 const folder = "bookmark/"
 const bookmarksFile = "bookmarks.json"
 
@@ -27,7 +25,7 @@ func init() {
 }
 
 func createFolderStructure() {
-	folders := []string{StorageDir}
+	folders := []string{StorageDir, IconsDir}
 	err := folderCreate.CreateFolders(folders, 0755)
 	if err != nil {
 		logrus.WithField("error", err).Fatal(message.CannotCreate.String())
@@ -68,6 +66,14 @@ func readBookmarksFile() []byte {
 	return byteValue
 }
 
+func replaceIconString() {
+	for i, v := range Bookmarks {
+		if !strings.Contains(v.Icon, "http") {
+			Bookmarks[i].Icon = "/" + IconsDir + v.Icon
+		}
+	}
+}
+
 func parseBookmarks() {
 	byteValue := readBookmarksFile()
 	err := json.Unmarshal(byteValue, &Bookmarks)
@@ -75,6 +81,7 @@ func parseBookmarks() {
 		logrus.WithField("file", bookmarksFile).Error(message.CannotParse.String())
 		return
 	}
+	replaceIconString()
 }
 
 func watchBookmarks() {
