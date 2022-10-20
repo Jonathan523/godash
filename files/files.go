@@ -7,7 +7,7 @@ import (
 
 const templatesFolder = "templates/"
 
-func ParseHtml(w http.ResponseWriter, htmlFile string, info interface{}) {
+func ParseAndServeHtml(w http.ResponseWriter, htmlFile string, info interface{}) {
 	parsedHtml, _ := template.ParseFiles(templatesFolder+htmlFile, templatesFolder+"_base.gohtml")
 	_ = parsedHtml.Execute(w, info)
 }

@@ -15,8 +15,8 @@ type LaunchpadInformation struct {
 
 func launchpad(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	files.ParseHtml(w, "index.gohtml", LaunchpadInformation{
-		Title:     "Launchpad",
+	files.ParseAndServeHtml(w, "index.gohtml", LaunchpadInformation{
+		Title:     "Godash",
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentOpenWeather,
 	})
