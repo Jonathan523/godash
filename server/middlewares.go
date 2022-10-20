@@ -14,14 +14,15 @@ func setupMiddlewares(router *chi.Mux) {
 		router.Use(newStructuredLogger(logger))
 	}
 	router.Use(middleware.Recoverer)
+	router.Use(middleware.AllowContentEncoding("deflate", "gzip"))
 	router.Use(middleware.RealIP)
 	router.Use(middleware.CleanPath)
 	router.Use(middleware.RedirectSlashes)
-	router.Use(middleware.Compress(5, "text/html", "text/css", "text/js"))
+	router.Use(middleware.Compress(5, "text/html", "text/css"))
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "OPTIONS"},
-		AllowedHeaders:   []string{"Content-Type"},
+		AllowedHeaders:   []string{"Accept-Encoding", "Content-Type"},
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
