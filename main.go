@@ -9,6 +9,6 @@ import (
 func main() {
 	logging.NewGlobalLogger()
 	weather.NewWeather()
-	s := server.NewServer(3000)
+	s := server.NewServer()
 	s.Listen()
 }

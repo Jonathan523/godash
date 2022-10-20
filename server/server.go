@@ -4,20 +4,24 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
+	"launchpad/config"
 	"launchpad/message"
 	"net/http"
 )
 
 type Server struct {
-	Router *chi.Mux
-	Port   int
+	Router       *chi.Mux
+	Port         int
+	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
 }
 
-func NewServer(port int) *Server {
-	router := chi.NewRouter()
-	setupMiddlewares(router)
-	setupRouter(router)
-	return &Server{router, port}
+func NewServer() *Server {
+	server := Server{}
+	config.ParseViperConfig(&server, config.AddViperConfig("server"))
+	server.Router = chi.NewRouter()
+	setupMiddlewares(server.Router)
+	setupRouter(server.Router)
+	return &server
 }
 
 func (server *Server) Listen() {

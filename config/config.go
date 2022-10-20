@@ -10,7 +10,7 @@ import (
 
 func AddViperConfig(name string) string {
 	file := name + ".json"
-	viper.SetConfigFile(name + "/" + file)
+	viper.SetConfigFile("config/" + file)
 	err := viper.MergeInConfig()
 	if err != nil {
 		logrus.WithField("file", name+".json").Fatal(message.CannotOpen.String())

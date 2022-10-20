@@ -15,7 +15,6 @@ var Bookmarks []Bookmark
 
 const StorageDir = "storage/"
 const IconsDir = StorageDir + "icons/"
-const folder = "bookmark/"
 const bookmarksFile = "bookmarks.json"
 
 func init() {
@@ -33,8 +32,8 @@ func createFolderStructure() {
 	logrus.WithField("folders", folders).Debug("folders created")
 }
 
-func copyBookmarks() {
-	source, _ := os.Open(folder + bookmarksFile)
+func copyDefaultBookmarks() {
+	source, _ := os.Open("config/" + bookmarksFile)
 	defer source.Close()
 	destination, err := os.Create(StorageDir + bookmarksFile)
 	if err != nil {
@@ -50,7 +49,7 @@ func copyBookmarks() {
 func readBookmarksFile() []byte {
 	jsonFile, err := os.Open(StorageDir + bookmarksFile)
 	if err != nil {
-		copyBookmarks()
+		copyDefaultBookmarks()
 		jsonFile, err = os.Open(StorageDir + bookmarksFile)
 		if err != nil {
 			logrus.WithField("file", bookmarksFile).Error(message.CannotOpen.String())
