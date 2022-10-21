@@ -2,6 +2,10 @@ FROM golang:alpine AS go
 RUN apk add nodejs npm
 WORKDIR /backend
 
+COPY /backend/swagger.sh .
+RUN chmod +x swagger.sh
+RUN ./swagger.sh install
+
 COPY ./go.mod .
 RUN go mod download
 
@@ -11,6 +15,7 @@ RUN npm install
 
 COPY . .
 RUN npm run build
+RUN ./swagger.sh init
 RUN go build -o app
 
 FROM alpine AS logo

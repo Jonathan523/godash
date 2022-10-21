@@ -21,16 +21,15 @@
         }
       </style>
       <link rel="stylesheet" href="/static/css/style.css" />
+      <script type="module" src="/static/js/app.js"></script>
     </head>
 
     <body class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-50">
       <div class="mx-auto max-w-7xl px-5 lg:px-8 my-3 md:my-10 lg:my-18 xl:my-28">{{ template "content" . }}</div>
-      {{ template "scripts" . }}
     </body>
   </html>
 {{ end }}
 
-{{ define "scripts" }}{{ end }}
 {{ define "content" }}{{ end }}
 
 {{ define "weatherIcons" }}
