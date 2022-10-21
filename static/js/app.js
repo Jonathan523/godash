@@ -11,8 +11,7 @@ const weatherSunset = document.getElementById("weatherSunset");
 socket.onmessage = (event) => {
   const parsed = JSON.parse(event.data);
   if (parsed.ws_type === WsType.Weather) {
-    const weather = parsed.message;
-    weatherIcon.setAttribute("xlink:href", "#" + weather.weather[0].icon);
+    weatherIcon.setAttribute("xlink:href", "#" + parsed.message.weather[0].icon);
     weatherTemp.innerHTML = parsed.message.main.temp + " " + parsed.message.units;
     weatherDescription.innerHTML = parsed.message.weather[0].description;
     weatherHumidity.innerHTML = parsed.message.main.humidity + "%";
