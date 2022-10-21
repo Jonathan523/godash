@@ -76,14 +76,15 @@ version: '3.9'
 
 services:
 
-  launchpad:
-    image: unjxde/launchpad:latest
-    container_name: launchpad
+  godash:
+    image: unjxde/godash:latest
+    container_name: godash
     restart: unless-stopped
     environment:
       # https://docs.linuxserver.io/general/understanding-puid-and-pgid
       - PUID=1000
       - PGID=1000
+      - TZ=Europe/Berlin
       # can be multiple hosts, comma separated, no spaces
       - ALLOWED_HOSTS=https://home.example.com
       # available log-levels: trace,debug,info,warn,error,fatal,panic
