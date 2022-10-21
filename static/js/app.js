@@ -1,6 +1,6 @@
 const WsType = { Weather: 0, System: 1 };
 const apiBase = window.location.origin + "/api";
-let socket = new WebSocket(apiBase.replace("http", "ws") + "/system/ws");
+let socket = new WebSocket(apiBase.replace("http", "ws") + "/ws");
 const weatherIcon = document.getElementById("weatherIcon");
 const weatherTemp = document.getElementById("weatherTemp");
 const weatherDescription = document.getElementById("weatherDescription");
