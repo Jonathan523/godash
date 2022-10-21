@@ -17,7 +17,7 @@ pipeline {
         stage('Deploying') {
             steps {
                 script {
-                    docker.withRegistry( 'https://ghcr.io', 'githubContainer' ) {
+                    docker.withRegistry( 'https://registry.hub.docker.com', 'dockerHub' ) {
                         if (BRANCH_NAME == "main") {
                             IMAGE.push("${VERSION}")
                             IMAGE.push("latest")
