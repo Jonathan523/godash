@@ -2,7 +2,7 @@ pipeline {
     environment {
         VERSION = "v1.0.0"
         PROJECT_NAME = JOB_NAME.split('/')
-        IMAGE_NAME = "flohoss/${PROJECT_NAME[0]}"
+        IMAGE_NAME = "unjxde/${PROJECT_NAME[0]}"
         IMAGE = ''
     }
     agent any
