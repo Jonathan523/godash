@@ -36,8 +36,8 @@ type OpenWeatherApiMain struct {
 }
 
 type OpenWeatherApiSys struct {
-	Sunrise    int64 `json:"sunrise"`
-	Sunset     int64 `json:"sunset"`
-	StrSunrise string
-	StrSunset  string
+	Sunrise    int64  `json:"sunrise"`
+	Sunset     int64  `json:"sunset"`
+	StrSunrise string `json:"str_sunrise"`
+	StrSunset  string `json:"str_sunset"`
 }

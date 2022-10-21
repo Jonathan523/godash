@@ -1,7 +1,12 @@
 const WsType = { Weather: 0, System: 1 };
-let socket = new WebSocket(window.location.origin.replace("http", "ws") + "/api/system/ws");
+const apiBase = window.location.origin + "/api";
+let socket = new WebSocket(apiBase.replace("http", "ws") + "/system/ws");
 const weatherIcon = document.getElementById("weatherIcon");
 const weatherTemp = document.getElementById("weatherTemp");
+const weatherDescription = document.getElementById("weatherDescription");
+const weatherHumidity = document.getElementById("weatherHumidity");
+const weatherSunrise = document.getElementById("weatherSunrise");
+const weatherSunset = document.getElementById("weatherSunset");
 
 socket.onmessage = (event) => {
   const parsed = JSON.parse(event.data);
@@ -9,5 +14,9 @@ socket.onmessage = (event) => {
     const weather = parsed.message;
     weatherIcon.setAttribute("xlink:href", "#" + weather.weather[0].icon);
     weatherTemp.innerHTML = parsed.message.main.temp + " " + parsed.message.units;
+    weatherDescription.innerHTML = parsed.message.weather[0].description;
+    weatherHumidity.innerHTML = parsed.message.main.humidity + "%";
+    weatherSunrise.innerHTML = parsed.message.sys.str_sunrise;
+    weatherSunset.innerHTML = parsed.message.sys.str_sunset;
   }
 };

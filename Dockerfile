@@ -22,7 +22,7 @@ FROM alpine AS logo
 RUN apk add figlet
 WORKDIR /logo
 
-RUN figlet godash > logo.txt
+RUN figlet GoDash > logo.txt
 
 FROM alpine AS final
 RUN apk add tzdata
