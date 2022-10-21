@@ -8,13 +8,12 @@ import (
 )
 
 var Config = SystemConfig{}
-var Live = Service{}
+var Sys = System{}
 
 func init() {
 	config.ParseViperConfig(&Config, config.AddViperConfig("system"))
 	if Config.LiveSystem {
-		Live.System.Initialize()
-		Live.Hub.Initialize()
+		Sys.Initialize()
 	}
 }
 

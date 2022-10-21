@@ -5,12 +5,14 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"godash/config"
+	"godash/hub"
 	"godash/message"
 	"net/http"
 )
 
 type Server struct {
 	Router       *chi.Mux
+	Hub          *hub.Hub
 	Port         int
 	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
 	Swagger      bool
@@ -21,6 +23,7 @@ var server = Server{}
 func NewServer() {
 	config.ParseViperConfig(&server, config.AddViperConfig("server"))
 	server.Router = chi.NewRouter()
+	server.Hub = hub.NewHub()
 	server.setupMiddlewares()
 	server.setupRouter()
 	server.setupSwagger()

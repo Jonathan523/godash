@@ -1,7 +1,5 @@
 package system
 
-import "godash/hub"
-
 type SystemConfig struct {
 	LiveSystem bool `mapstructure:"LIVE_SYSTEM"`
 }
@@ -27,11 +25,6 @@ type StaticInformation struct {
 type System struct {
 	Live   LiveInformation   `json:"live" validate:"required"`
 	Static StaticInformation `json:"static" validate:"required"`
-}
-
-type Service struct {
-	System System
-	Hub    hub.Hub
 }
 
 type Storage struct {

@@ -26,7 +26,7 @@ func launchpad(w http.ResponseWriter, r *http.Request) {
 		Title:     "Godash",
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentOpenWeather,
-		System:    system.Live.System.Live,
+		System:    system.Sys.Live,
 	})
 }
 
@@ -56,7 +56,7 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 // @Router      /system/live [get]
 func routeLiveSystem(w http.ResponseWriter, r *http.Request) {
 	if system.Config.LiveSystem {
-		jsonResponse(w, system.Live.System.Live, http.StatusOK)
+		jsonResponse(w, system.Sys.Live, http.StatusOK)
 	} else {
 		jsonResponse(w, message.Response{Message: message.NotFound.String()}, http.StatusNoContent)
 	}
@@ -72,7 +72,7 @@ func routeLiveSystem(w http.ResponseWriter, r *http.Request) {
 // @Router      /system/static [get]
 func routeStaticSystem(w http.ResponseWriter, r *http.Request) {
 	if system.Config.LiveSystem {
-		jsonResponse(w, system.Live.System.Static, http.StatusOK)
+		jsonResponse(w, system.Sys.Static, http.StatusOK)
 	} else {
 		jsonResponse(w, message.Response{Message: message.NotFound.String()}, http.StatusNoContent)
 	}
@@ -85,9 +85,9 @@ func webSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	messageChan := make(hub.NotifierChan)
-	system.Live.Hub.NewClients <- messageChan
+	server.Hub.NewClients <- messageChan
 	defer func() {
-		system.Live.Hub.ClosingClients <- messageChan
+		server.Hub.ClosingClients <- messageChan
 		conn.Close()
 	}()
 	go readPump(conn)

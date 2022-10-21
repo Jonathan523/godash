@@ -28,20 +28,22 @@ type (
 
 var LiveInformationCh chan Message
 
-func (h *Hub) Initialize() {
+func NewHub() *Hub {
+	hub := Hub{}
 	LiveInformationCh = make(chan Message)
-	h.Notifier = make(NotifierChan)
-	h.NewClients = make(chan NotifierChan)
-	h.ClosingClients = make(chan NotifierChan)
-	h.clients = make(map[NotifierChan]struct{})
-	go h.listen()
+	hub.Notifier = make(NotifierChan)
+	hub.NewClients = make(chan NotifierChan)
+	hub.ClosingClients = make(chan NotifierChan)
+	hub.clients = make(map[NotifierChan]struct{})
+	go hub.listen()
 	go func() {
 		for {
 			if msg, ok := <-LiveInformationCh; ok {
-				h.Notifier <- msg
+				hub.Notifier <- msg
 			}
 		}
 	}()
+	return &hub
 }
 
 func (h *Hub) listen() {
