@@ -5,9 +5,9 @@ import (
 	"net/http"
 )
 
-const templatesFolder = "templates/"
+const TemplatesFolder = "templates/"
 
 func ParseAndServeHtml(w http.ResponseWriter, htmlFile string, info interface{}) {
-	parsedHtml, _ := template.ParseFiles(templatesFolder+htmlFile, templatesFolder+"_base.gohtml")
+	parsedHtml, _ := template.ParseFiles(TemplatesFolder+htmlFile, TemplatesFolder+"_base.gohtml")
 	_ = parsedHtml.Execute(w, info)
 }
