@@ -2,7 +2,7 @@ FROM golang:alpine AS go
 RUN apk add nodejs npm
 WORKDIR /backend
 
-COPY /backend/swagger.sh .
+COPY ./swagger.sh .
 RUN chmod +x swagger.sh
 RUN ./swagger.sh install
 
