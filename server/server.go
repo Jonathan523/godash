@@ -13,15 +13,18 @@ type Server struct {
 	Router       *chi.Mux
 	Port         int
 	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
+	Swagger      bool
 }
 
-func NewServer() *Server {
-	server := Server{}
+var server = Server{}
+
+func NewServer() {
 	config.ParseViperConfig(&server, config.AddViperConfig("server"))
 	server.Router = chi.NewRouter()
 	server.setupMiddlewares()
 	server.setupRouter()
-	return &server
+	server.setupSwagger()
+	server.Listen()
 }
 
 func (server *Server) Listen() {

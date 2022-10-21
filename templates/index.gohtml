@@ -74,7 +74,7 @@
 {{ define "scripts" }}
   <script lang="ts">
     const WsType = { Weather: 0, System: 1 };
-    let socket = new WebSocket(window.location.origin.replace("http", "ws") + "/system/ws");
+    let socket = new WebSocket(window.location.origin.replace("http", "ws") + "/api/system/ws");
     const weatherIcon = document.getElementById("weatherIcon");
     const weatherTemp = document.getElementById("weatherTemp");
 

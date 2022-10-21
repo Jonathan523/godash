@@ -12,22 +12,48 @@ import (
 	"net/http"
 )
 
-type LaunchpadInformation struct {
+type launchpadInformation struct {
 	Title     string
 	Host      string
 	Bookmarks []bookmark.Bookmark
 	Weather   weather.OpenWeatherApiResponse
+	System    system.LiveInformation
 }
 
 func launchpad(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	files.ParseAndServeHtml(w, "index.gohtml", LaunchpadInformation{
+	files.ParseAndServeHtml(w, "index.gohtml", launchpadInformation{
 		Title:     "Godash",
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentOpenWeather,
+		System:    system.Live.System.Live,
 	})
 }
 
+// @Schemes
+// @Summary     get the current weather
+// @Description gets the current weather
+// @Tags        weather
+// @Produce     json
+// @Success     200 {object} weather.OpenWeatherApiResponse
+// @Success     204 {object} message.Response
+// @Router      /weather [get]
+func getWeather(w http.ResponseWriter, r *http.Request) {
+	if weather.Conf.OpenWeather.Key != "" {
+		jsonResponse(w, weather.CurrentOpenWeather, http.StatusOK)
+	} else {
+		jsonResponse(w, message.Response{Message: message.NotFound.String()}, http.StatusNoContent)
+	}
+}
+
+// @Schemes
+// @Summary     live system information
+// @Description gets live information of the system
+// @Tags        system
+// @Produce     json
+// @Success     200 {object} system.LiveInformation
+// @Success     204 {object} message.Response
+// @Router      /system/live [get]
 func routeLiveSystem(w http.ResponseWriter, r *http.Request) {
 	if system.Config.LiveSystem {
 		jsonResponse(w, system.Live.System.Live, http.StatusOK)
@@ -36,6 +62,14 @@ func routeLiveSystem(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Schemes
+// @Summary     static system information
+// @Description gets static information of the system
+// @Tags        system
+// @Produce     json
+// @Success     200 {object} system.StaticInformation
+// @Success     204 {object} message.Response
+// @Router      /system/static [get]
 func routeStaticSystem(w http.ResponseWriter, r *http.Request) {
 	if system.Config.LiveSystem {
 		jsonResponse(w, system.Live.System.Static, http.StatusOK)

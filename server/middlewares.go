@@ -7,16 +7,16 @@ import (
 )
 
 func (server *Server) setupMiddlewares() {
+	server.Router.Use(middleware.RealIP)
 	if logrus.GetLevel() == logrus.TraceLevel {
 		logger := logrus.New()
 		logger.Formatter = &logrus.TextFormatter{TimestampFormat: "2006/01/02 15:04:05", FullTimestamp: true}
 		server.Router.Use(newStructuredLogger(logger))
 	}
 	server.Router.Use(middleware.Recoverer)
-	server.Router.Use(middleware.AllowContentEncoding("deflate", "gzip"))
-	server.Router.Use(middleware.RealIP)
 	server.Router.Use(middleware.CleanPath)
 	server.Router.Use(middleware.RedirectSlashes)
+	server.Router.Use(middleware.AllowContentEncoding("deflate", "gzip"))
 	server.Router.Use(middleware.Compress(5, "text/html", "text/css"))
 	server.Router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   server.AllowedHosts,

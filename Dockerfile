@@ -20,6 +20,7 @@ WORKDIR /logo
 RUN figlet godash > logo.txt
 
 FROM alpine AS final
+RUN apk add tzdata
 WORKDIR /app
 
 COPY --from=logo /logo/logo.txt .
