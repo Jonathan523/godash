@@ -17,7 +17,7 @@ func (server *Server) setupMiddlewares() {
 	server.Router.Use(middleware.CleanPath)
 	server.Router.Use(middleware.RedirectSlashes)
 	server.Router.Use(middleware.AllowContentEncoding("deflate", "gzip"))
-	server.Router.Use(middleware.Compress(5, "text/html", "text/js", "text/css"))
+	server.Router.Use(middleware.Compress(5, "text/html", "text/css"))
 	server.Router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   server.AllowedHosts,
 		AllowedMethods:   []string{"GET", "OPTIONS"},
