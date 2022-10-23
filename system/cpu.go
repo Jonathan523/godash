@@ -24,6 +24,5 @@ func (s *System) liveCpu() {
 	if err != nil {
 		return
 	}
-	s.Live.CPU.Value = s.Static.CPU.Name
-	s.Live.CPU.Percentage = append(s.Live.CPU.Percentage[1:], math.RoundToEven(p[0]))
+	s.Live.CPU.Percentage = math.RoundToEven(p[0])
 }

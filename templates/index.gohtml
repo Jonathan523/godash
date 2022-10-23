@@ -73,4 +73,48 @@
       </a>
     {{ end }}
   </div>
+
+  {{ if .System.Static.CPU.Name }}
+    <div class="grid grid-cols-4 gap-5 mt-6 md:mt-10 select-none">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <svg width="20" height="20" class="mr-3">
+            <use xlink:href="#cpu"></use>
+          </svg>
+          <div class="mr-2">CPU</div>
+          <div class="text-sm text-slate-700 dark:text-slate-300 bg-slate-300 dark:bg-slate-700 rounded px-1">{{ .System.Static.CPU.Name }}</div>
+        </div>
+        <div class="text-xl font-bold"><span id="systemCpu">{{ .System.Live.CPU.Percentage }}</span>%</div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <svg width="20" height="20" class="mr-3">
+            <use xlink:href="#ram"></use>
+          </svg>
+          <div class="mr-2">RAM</div>
+          <div class="text-sm text-slate-700 dark:text-slate-300 bg-slate-300 dark:bg-slate-700 rounded px-1">{{ .System.Static.Ram }}</div>
+        </div>
+        <div class="text-xl font-bold"><span id="systemRamPercentage">{{ .System.Live.Ram.Percentage }}</span>%</div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <svg width="20" height="20" class="mr-3">
+            <use xlink:href="#disk"></use>
+          </svg>
+          <div class="mr-2">Disk</div>
+          <div class="text-sm text-slate-700 dark:text-slate-300 bg-slate-300 dark:bg-slate-700 rounded px-1">{{ .System.Static.Disk }}</div>
+        </div>
+        <div class="text-xl font-bold"><span id="systemDiskPercentage">{{ .System.Live.Disk.Percentage }}</span>%</div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <svg width="20" height="20" class="mr-3">
+            <use xlink:href="#power"></use>
+          </svg>
+          <div class="mr-2">Uptime</div>
+        </div>
+        <div class="text-xl font-bold"><span id="systemUptime">{{ .System.Live.ServerUptime }}</span></div>
+      </div>
+    </div>
+  {{ end }}
 {{ end }}

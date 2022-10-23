@@ -17,7 +17,7 @@ type launchpadInformation struct {
 	Host      string
 	Bookmarks []bookmark.Bookmark
 	Weather   weather.OpenWeatherApiResponse
-	System    system.LiveInformation
+	System    system.System
 }
 
 func launchpad(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,7 @@ func launchpad(w http.ResponseWriter, r *http.Request) {
 		Title:     "Godash",
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentOpenWeather,
-		System:    system.Sys.Live,
+		System:    system.Sys,
 	})
 }
 

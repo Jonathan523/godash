@@ -17,21 +17,14 @@ type LiveInformation struct {
 }
 
 type StaticInformation struct {
-	CPU  CPU     `json:"cpu" validate:"required"`
-	Ram  Storage `json:"ram" validate:"required"`
-	Disk Storage `json:"disk" validate:"required"`
+	CPU  CPU    `json:"cpu" validate:"required"`
+	Ram  string `json:"ram" validate:"required"`
+	Disk string `json:"disk" validate:"required"`
 }
 
 type System struct {
 	Live   LiveInformation   `json:"live" validate:"required"`
 	Static StaticInformation `json:"static" validate:"required"`
-}
-
-type Storage struct {
-	Readable   string  `json:"readable" validate:"required"`
-	Value      float64 `json:"value" validate:"required"`
-	UnitString string  `json:"unit_string" validate:"required"`
-	Unit       float64 `json:"unit" validate:"required"`
 }
 
 type CPU struct {
@@ -41,6 +34,5 @@ type CPU struct {
 }
 
 type CpuSystemInformation struct {
-	Value      string    `json:"value" validate:"required"`
-	Percentage []float64 `json:"percentage" validate:"required"`
+	Percentage float64 `json:"percentage" validate:"required"`
 }

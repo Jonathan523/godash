@@ -1,24 +1,18 @@
 package system
 
 import (
-	"fmt"
 	"github.com/dariubs/percent"
+	"github.com/dustin/go-humanize"
 	"github.com/shirou/gopsutil/v3/disk"
 	"math"
 )
 
-func staticDisk() Storage {
-	var s Storage
+func staticDisk() string {
 	d, err := disk.Usage("/")
 	if err != nil {
-		return s
+		return ""
 	}
-	total := d.Total
-	if total <= 0 {
-		return s
-	}
-	processStorage(&s, total)
-	return s
+	return humanize.IBytes(d.Total)
 }
 
 func (s *System) liveDisk() {
@@ -26,10 +20,8 @@ func (s *System) liveDisk() {
 	if err != nil {
 		return
 	}
-	usage := d.Used
-	if usage > 0 {
-		niceUsage := float64(usage) / s.Static.Disk.Unit
-		s.Live.Disk.Value = fmt.Sprintf("%.2f", niceUsage)
-		s.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(niceUsage, s.Static.Disk.Value))
-	}
+	used := d.Used
+	total := d.Total
+	s.Live.Disk.Value = humanize.IBytes(d.Used)
+	s.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(used), float64(total)))
 }

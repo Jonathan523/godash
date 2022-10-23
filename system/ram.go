@@ -1,24 +1,18 @@
 package system
 
 import (
-	"fmt"
 	"github.com/dariubs/percent"
+	"github.com/dustin/go-humanize"
 	"github.com/shirou/gopsutil/v3/mem"
 	"math"
 )
 
-func staticRam() Storage {
-	var s Storage
+func staticRam() string {
 	r, err := mem.VirtualMemory()
 	if err != nil {
-		return s
+		return ""
 	}
-	total := r.Total
-	if total <= 0 {
-		return s
-	}
-	processStorage(&s, total)
-	return s
+	return humanize.IBytes(r.Total)
 }
 
 func (s *System) liveRam() {
@@ -26,11 +20,8 @@ func (s *System) liveRam() {
 	if err != nil {
 		return
 	}
-	var niceUsage float64 = 0
 	used := r.Used
-	if used > 0 {
-		niceUsage = float64(used) / s.Static.Ram.Unit
-		s.Live.Ram.Value = fmt.Sprintf("%.2f", niceUsage)
-		s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(niceUsage, s.Static.Ram.Value))
-	}
+	total := r.Total
+	s.Live.Ram.Value = humanize.IBytes(r.Used)
+	s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(used), float64(total)))
 }
