@@ -15,7 +15,9 @@ const weatherSunset = document.getElementById("weatherSunset");
 // system elements
 const systemCpuPercentage = document.getElementById("systemCpuPercentage");
 const systemRamPercentage = document.getElementById("systemRamPercentage");
+const systemRamValue = document.getElementById("systemRamValue");
 const systemDiskPercentage = document.getElementById("systemDiskPercentage");
+const systemDiskValue = document.getElementById("systemDiskValue");
 
 function connect() {
   let ws = new WebSocket(apiBase.replace("http", "ws") + "/system/ws");
@@ -47,7 +49,9 @@ function replaceWeather(parsed) {
 }
 
 function replaceSystem(parsed) {
-  systemCpuPercentage.style = "width:" + parsed.cpu.percentage + "%";
+  systemCpuPercentage.style = "width:" + parsed.cpu + "%";
   systemRamPercentage.style = "width:" + parsed.ram.percentage + "%";
+  systemRamValue.innerText = parsed.ram.value;
   systemDiskPercentage.style = "width:" + parsed.disk.percentage + "%";
+  systemDiskValue.innerText = parsed.disk.value;
 }

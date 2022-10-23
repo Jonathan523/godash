@@ -62,35 +62,50 @@
   {{ if .System.Static.CPU.Name }}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6 md:mb-10 select-none text-sm">
       <div class="flex items-center">
-        <svg class="h-6 w-6 shrink-0 mr-2 text-slate-300">
+        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
           <use xlink:href="#cpu"></use>
         </svg>
         <div class="w-full truncate">
           <div class="truncate">{{ .System.Static.CPU.Name }}</div>
-          <div class="bg-slate-700 h-px mt-1">
-            <div id="systemCpuPercentage" class="transition-[width] duration-700 bg-slate-200 h-px" style="width: {{ .System.Live.CPU.Percentage }}%"></div>
+          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.CPU.Threads }}</div>
+          <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
+            <div
+              id="systemCpuPercentage"
+              class="transition-[width] duration-700 bg-slate-800 dark:bg-slate-200 h-px"
+              style="width: {{ .System.Live.CPU }}%"
+            ></div>
           </div>
         </div>
       </div>
       <div class="flex items-center">
-        <svg class="h-6 w-6 shrink-0 mr-2 text-slate-300">
+        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
           <use xlink:href="#ram"></use>
         </svg>
         <div class="w-full truncate">
-          <div class="truncate">{{ .System.Live.Ram.Value }} / {{ .System.Static.Ram }}</div>
-          <div class="bg-slate-700 h-px mt-1">
-            <div id="systemRamPercentage" class="transition-[width] duration-700 bg-slate-200 h-px" style="width: {{ .System.Live.Ram.Percentage }}%"></div>
+          <div class="truncate"><span id="systemRamValue">{{ .System.Live.Ram.Value }}</span> / {{ .System.Static.Ram.Total }}</div>
+          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.Ram.Swap }}</div>
+          <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
+            <div
+              id="systemRamPercentage"
+              class="transition-[width] duration-700 bg-slate-800 dark:bg-slate-200 h-px"
+              style="width: {{ .System.Live.Ram.Percentage }}%"
+            ></div>
           </div>
         </div>
       </div>
       <div class="flex items-center">
-        <svg class="h-6 w-6 shrink-0 mr-2 text-slate-300">
+        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
           <use xlink:href="#disk"></use>
         </svg>
         <div class="w-full truncate">
-          <div class="truncate">{{ .System.Live.Disk.Value }} / {{ .System.Static.Disk }}</div>
-          <div class="bg-slate-700 h-px mt-1">
-            <div id="systemDiskPercentage" class="transition-[width] duration-700 bg-slate-200 h-px" style="width: {{ .System.Live.Disk.Percentage }}%"></div>
+          <div class="truncate"><span id="systemDiskValue">{{ .System.Live.Disk.Value }}</span> / {{ .System.Static.Disk.Total }}</div>
+          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.Disk.Partitions }}</div>
+          <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
+            <div
+              id="systemDiskPercentage"
+              class="transition-[width] duration-700 bg-slate-800 dark:bg-slate-200 h-px"
+              style="width: {{ .System.Live.Disk.Percentage }}%"
+            ></div>
           </div>
         </div>
       </div>

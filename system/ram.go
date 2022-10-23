@@ -7,12 +7,19 @@ import (
 	"math"
 )
 
-func staticRam() string {
+func staticRam() Ram {
+	var result = Ram{}
 	r, err := mem.VirtualMemory()
 	if err != nil {
-		return ""
+		return result
 	}
-	return humanize.IBytes(r.Total)
+	result.Total = humanize.IBytes(r.Total)
+	if r.SwapTotal > 0 {
+		result.Swap = humanize.IBytes(r.SwapTotal) + " swap"
+	} else {
+		result.Swap = "No swap"
+	}
+	return result
 }
 
 func (s *System) liveRam() {
