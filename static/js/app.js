@@ -1,10 +1,22 @@
-import { select } from "https://cdn.skypack.dev/d3-selection@3";
-import { timeDay } from "https://cdn.skypack.dev/d3-time@3";
-
+// webSocket
 const WsType = { Weather: 0, System: 1 };
 const apiBase = window.location.origin + "/api";
 let timeOut = 1;
 connect();
+
+// weather elements
+const weatherIcon = document.getElementById("weatherIcon");
+const weatherTemp = document.getElementById("weatherTemp");
+const weatherDescription = document.getElementById("weatherDescription");
+const weatherHumidity = document.getElementById("weatherHumidity");
+const weatherSunrise = document.getElementById("weatherSunrise");
+const weatherSunset = document.getElementById("weatherSunset");
+
+// system elements
+const systemCpu = document.getElementById("systemCpu");
+const systemRamPercentage = document.getElementById("systemRamPercentage");
+const systemDiskPercentage = document.getElementById("systemDiskPercentage");
+const systemUptime = document.getElementById("systemUptime");
 
 function connect() {
   let ws = new WebSocket(apiBase.replace("http", "ws") + "/system/ws");
@@ -27,17 +39,17 @@ function handleMessage(parsed) {
 }
 
 function replaceWeather(parsed) {
-  select("#weatherIcon").attr("xlink:href", "#" + parsed.weather[0].icon);
-  select("#weatherTemp").text(parsed.main.temp);
-  select("#weatherDescription").text(parsed.weather[0].description);
-  select("#weatherHumidity").text(parsed.main.humidity);
-  select("#weatherSunrise").text(parsed.sys.str_sunrise);
-  select("#weatherSunset").text(parsed.sys.str_sunset);
+  weatherIcon.setAttribute("xlink:href", "#" + parsed.weather[0].icon);
+  weatherTemp.innerText = parsed.main.temp;
+  weatherDescription.innerText = parsed.weather[0].description;
+  weatherHumidity.innerText = parsed.main.humidity;
+  weatherSunrise.innerText = parsed.sys.str_sunrise;
+  weatherSunset.innerText = parsed.sys.str_sunset;
 }
 
 function replaceSystem(parsed) {
-  select("#systemCpu").text(parsed.cpu.percentage);
-  select("#systemRamPercentage").text(parsed.ram.percentage);
-  select("#systemDiskPercentage").text(parsed.disk.percentage);
-  select("#systemUptime").text(parsed.server_uptime);
+  systemCpu.innerText = parsed.cpu.percentage;
+  systemRamPercentage.innerText = parsed.ram.percentage;
+  systemDiskPercentage.innerText = parsed.disk.percentage;
+  systemUptime.innerText = parsed.server_uptime;
 }
