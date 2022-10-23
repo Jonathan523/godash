@@ -4,11 +4,12 @@ import (
 	"github.com/shirou/gopsutil/v3/cpu"
 	"math"
 	"runtime"
+	"strconv"
 )
 
 func staticCpu() CPU {
 	var p CPU
-	p.Threads = runtime.NumCPU()
+	p.Threads = strconv.Itoa(runtime.NumCPU()) + " threads"
 	p.Architecture = runtime.GOARCH
 	c, err := cpu.Info()
 	if err == nil {
@@ -24,5 +25,5 @@ func (s *System) liveCpu() {
 	if err != nil {
 		return
 	}
-	s.Live.CPU.Percentage = math.RoundToEven(p[0])
+	s.Live.CPU = math.RoundToEven(p[0])
 }

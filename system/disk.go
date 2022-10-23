@@ -5,14 +5,19 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/shirou/gopsutil/v3/disk"
 	"math"
+	"strconv"
 )
 
-func staticDisk() string {
+func staticDisk() Disk {
+	var result = Disk{}
 	d, err := disk.Usage("/")
 	if err != nil {
-		return ""
+		return result
 	}
-	return humanize.IBytes(d.Total)
+	p, err := disk.Partitions(false)
+	result.Total = humanize.IBytes(d.Total)
+	result.Partitions = strconv.Itoa(len(p)) + " partitions"
+	return result
 }
 
 func (s *System) liveDisk() {
