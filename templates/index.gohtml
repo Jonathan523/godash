@@ -5,6 +5,7 @@
 {{ end }}
 
 {{ define "content" }}
+  {{ template "systemIcons" . }}
   {{ template "weatherIcons" . }}
 
   {{ if .Weather.Name }}
