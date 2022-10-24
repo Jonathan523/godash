@@ -1,8 +1,7 @@
 {
   "scripts": {
     "dev": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
-    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css",
-    "types:openapi": "openapi -i ./docs/swagger.json -o ./templates/openapi"
+    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css"
   },
   "devDependencies": {
     "openapi-typescript": "^5.4.1",

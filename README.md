@@ -58,7 +58,6 @@ The name and related link can be provided as well.
 ```toml
 PORT = 4000
 ALLOWED_HOSTS = "http://localhost:4000"
-SWAGGER = false
 
 LOG_LEVEL = "info"
 
@@ -67,6 +66,8 @@ LOCATION_LONGITUDE = 9.177968320179422
 OPEN_WEATHER_KEY = ""
 OPEN_WEATHER_UNITS = "metric"
 OPEN_WEATHER_LANG = "en"
+
+LIVE_SYSTEM = true
 ```
 
 ## A docker-compose example:
@@ -100,6 +101,8 @@ services:
       # location is needed for weather
       - LOCATION_LATITUDE=48.644929601442485
       - LOCATION_LONGITUDE=9.349618464869025
+      # show live system information
+      - LIVE_SYSTEM=true
     volumes:
       # to mount the bookmarks.json and the icons folder on the system
       - ./storage:/app/storage

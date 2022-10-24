@@ -26,7 +26,6 @@ func NewServer() {
 	server.Hub = hub.NewHub()
 	server.setupMiddlewares()
 	server.setupRouter()
-	server.setupSwagger()
 	server.Listen()
 }
 
