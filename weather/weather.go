@@ -12,7 +12,7 @@ import (
 )
 
 var Conf = Config{}
-var CurrentOpenWeather = OpenWeatherApiResponse{}
+var CurrentWeather = Weather{}
 
 func NewWeather() {
 	config.ParseViperConfig(&Conf, config.AddViperConfig("weather"))
@@ -24,20 +24,25 @@ func NewWeather() {
 
 func setWeatherUnits() {
 	if Conf.OpenWeather.Units == "imperial" {
-		CurrentOpenWeather.Units = "°F"
+		CurrentWeather.Units = "°F"
 	} else {
-		CurrentOpenWeather.Units = "°C"
+		CurrentWeather.Units = "°C"
 	}
 }
 
-func calcWeatherTimestamps() {
-	myTime := time.Unix(CurrentOpenWeather.Sys.Sunrise, 0)
-	CurrentOpenWeather.Sys.StrSunrise = myTime.Format("15:04")
-	myTime = time.Unix(CurrentOpenWeather.Sys.Sunset, 0)
-	CurrentOpenWeather.Sys.StrSunset = myTime.Format("15:04")
+func copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
+	myTime := time.Unix(weatherResp.Sys.Sunrise, 0)
+	CurrentWeather.Sunrise = myTime.Format("15:04")
+	myTime = time.Unix(weatherResp.Sys.Sunset, 0)
+	CurrentWeather.Sunset = myTime.Format("15:04")
+	CurrentWeather.Icon = weatherResp.Weather[0].Icon
+	CurrentWeather.Temp = weatherResp.Main.Temp
+	CurrentWeather.Description = weatherResp.Weather[0].Description
+	CurrentWeather.Humidity = weatherResp.Main.Humidity
 }
 
 func updateWeather(interval time.Duration) {
+	var weatherResponse OpenWeatherApiResponse
 	for {
 		resp, err := http.Get(fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s&lang=%s",
 			Conf.Location.Latitude,
@@ -49,16 +54,16 @@ func updateWeather(interval time.Duration) {
 			logrus.Error("weather cannot be updated")
 		} else {
 			body, _ := io.ReadAll(resp.Body)
-			err = json.Unmarshal(body, &CurrentOpenWeather)
+			err = json.Unmarshal(body, &weatherResponse)
 			if err != nil {
 				logrus.Error("weather cannot be processed")
 			} else {
-				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentOpenWeather.Main.Temp, CurrentOpenWeather.Units), "location": CurrentOpenWeather.Name}).Trace("weather updated")
+				copyWeatherValues(&weatherResponse)
+				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentWeather.Temp, CurrentWeather.Units), "humidity": fmt.Sprintf("%0.2f%s", CurrentWeather.Humidity, "%")}).Trace("weather updated")
 			}
-			calcWeatherTimestamps()
 			resp.Body.Close()
 		}
-		hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentOpenWeather}
+		hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentWeather}
 		time.Sleep(interval)
 	}
 }

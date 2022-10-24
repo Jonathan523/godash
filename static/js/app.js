@@ -1,6 +1,6 @@
 // webSocket
 const WsType = { Weather: 0, System: 1 };
-const apiBase = window.location.origin + "/api";
+const wsUrl = (window.location.origin.replace("http", "ws") )+ "/ws";
 let timeOut = 1;
 connect();
 
@@ -20,7 +20,7 @@ const systemDiskPercentage = document.getElementById("systemDiskPercentage");
 const systemDiskValue = document.getElementById("systemDiskValue");
 
 function connect() {
-  let ws = new WebSocket(apiBase.replace("http", "ws") + "/system/ws");
+  let ws = new WebSocket(wsUrl);
   ws.onopen = () => {
     console.log("WebSocket is open.");
     timeOut = 1;
@@ -40,12 +40,12 @@ function handleMessage(parsed) {
 }
 
 function replaceWeather(parsed) {
-  weatherIcon.setAttribute("xlink:href", "#" + parsed.weather[0].icon);
-  weatherTemp.innerText = parsed.main.temp;
-  weatherDescription.innerText = parsed.weather[0].description;
-  weatherHumidity.innerText = parsed.main.humidity;
-  weatherSunrise.innerText = parsed.sys.str_sunrise;
-  weatherSunset.innerText = parsed.sys.str_sunset;
+  weatherIcon.setAttribute("xlink:href", "#" + parsed.icon);
+  weatherTemp.innerText = parsed.temp;
+  weatherDescription.innerText = parsed.description;
+  weatherHumidity.innerText = parsed.humidity;
+  weatherSunrise.innerText = parsed.sunrise;
+  weatherSunset.innerText = parsed.sunset;
 }
 
 function replaceSystem(parsed) {

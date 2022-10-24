@@ -8,50 +8,38 @@
   {{ template "systemIcons" . }}
   {{ template "weatherIcons" . }}
 
-  {{ if .Weather.Name }}
+  {{ if .Weather.Icon }}
     <div class="flex items-center mb-6 md:mb-10 select-none">
       <svg class="shrink-0 w-20 h-20 md:w-14 md:h-14 mr-5">
-        {{ range .Weather.Weather }}
-          <use id="weatherIcon" xlink:href="#{{ .Icon }}"></use>
-        {{ end }}
+        <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
       </svg>
       <div class="flex flex-col md:flex-row">
-        <div class="text-4xl font-bold mr-8"><span id="weatherTemp">{{ .Weather.Main.Temp }}</span> {{ .Weather.Units }}</div>
+        <div class="text-4xl font-bold mr-8"><span id="weatherTemp">{{ .Weather.Temp }}</span> {{ .Weather.Units }}</div>
         <div class="flex flex-col md:flex-row mt-1 text-sm text-slate-700 dark:text-slate-300">
           <div class="flex items-center md:mr-5">
             <svg width="14" height="14" class="mr-2">
               <use xlink:href="#quote"></use>
             </svg>
-            <div>
-              {{ range .Weather.Weather }}
-                <div id="weatherDescription">{{ .Description }}</div>
-              {{ end }}
-            </div>
+            <div id="weatherDescription">{{ .Weather.Description }}</div>
           </div>
           <div class="flex items-center md:mr-5">
             <svg width="14" height="14" class="mr-2">
               <use xlink:href="#humidity"></use>
             </svg>
-            <span id="weatherHumidity">{{ .Weather.Main.Humidity }}</span>%
+            <span id="weatherHumidity">{{ .Weather.Humidity }}</span>%
           </div>
-          <div class="hidden lg:flex items-center">
-            <div class="flex items-center md:mr-5">
-              <svg width="15" height="15" class="mr-2">
-                <use xlink:href="#location"></use>
-              </svg>
-              {{ .Weather.Name }}
-            </div>
+          <div class="hidden md:flex items-center">
             <div class="flex items-center md:mr-5">
               <svg width="18" height="18" class="mr-2 mt-1">
                 <use xlink:href="#sunrise"></use>
               </svg>
-              <div id="weatherSunrise">{{ .Weather.Sys.StrSunrise }}</div>
+              <div id="weatherSunrise">{{ .Weather.Sunrise }}</div>
             </div>
             <div class="flex items-center md:mr-5">
               <svg width="18" height="18" class="mr-2 mt-1">
                 <use xlink:href="#sunset"></use>
               </svg>
-              <div id="weatherSunset">{{ .Weather.Sys.StrSunset }}</div>
+              <div id="weatherSunset">{{ .Weather.Sunset }}</div>
             </div>
           </div>
         </div>
@@ -60,14 +48,14 @@
   {{ end }}
 
   {{ if .System.Static.CPU.Name }}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6 md:mb-10 select-none text-sm">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6 md:mb-10 select-none text-sm text-slate-700 dark:text-slate-300">
       <div class="flex items-center">
-        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
+        <svg class="h-7 w-7 shrink-0 mr-3">
           <use xlink:href="#cpu"></use>
         </svg>
         <div class="w-full truncate">
           <div class="truncate">{{ .System.Static.CPU.Name }}</div>
-          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.CPU.Threads }}</div>
+          <div class="text-xs truncate">{{ .System.Static.CPU.Threads }}</div>
           <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
             <div
               id="systemCpuPercentage"
@@ -78,12 +66,12 @@
         </div>
       </div>
       <div class="flex items-center">
-        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
+        <svg class="h-7 w-7 shrink-0 mr-3">
           <use xlink:href="#ram"></use>
         </svg>
         <div class="w-full truncate">
           <div class="truncate"><span id="systemRamValue">{{ .System.Live.Ram.Value }}</span> / {{ .System.Static.Ram.Total }}</div>
-          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.Ram.Swap }}</div>
+          <div class="text-xs truncate">{{ .System.Static.Ram.Swap }}</div>
           <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
             <div
               id="systemRamPercentage"
@@ -94,12 +82,12 @@
         </div>
       </div>
       <div class="flex items-center">
-        <svg class="h-8 w-8 shrink-0 mr-2 text-slate-700 dark:text-slate-300">
+        <svg class="h-7 w-7 shrink-0 mr-3">
           <use xlink:href="#disk"></use>
         </svg>
         <div class="w-full truncate">
           <div class="truncate"><span id="systemDiskValue">{{ .System.Live.Disk.Value }}</span> / {{ .System.Static.Disk.Total }}</div>
-          <div class="text-xs text-slate-700 dark:text-slate-300 truncate">{{ .System.Static.Disk.Partitions }}</div>
+          <div class="text-xs truncate">{{ .System.Static.Disk.Partitions }}</div>
           <div class="bg-slate-300 dark:bg-slate-700 h-px mt-1">
             <div
               id="systemDiskPercentage"

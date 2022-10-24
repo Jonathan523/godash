@@ -26,5 +26,4 @@ func (s *System) liveCpu() {
 		return
 	}
 	s.Live.CPU = math.RoundToEven(p[0])
-	s.History.CPU = append(s.History.CPU[1:], s.Live.CPU)
 }
