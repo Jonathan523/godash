@@ -38,7 +38,12 @@ type StaticInformation struct {
 	Disk Disk `json:"disk"`
 }
 
+type History struct {
+	CPU []float64 `json:"cpu"`
+}
+
 type System struct {
-	Live   LiveInformation   `json:"live"`
-	Static StaticInformation `json:"static"`
+	Live    LiveInformation   `json:"live"`
+	Static  StaticInformation `json:"static"`
+	History History           `json:"history"`
 }
