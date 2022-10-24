@@ -5,6 +5,7 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/shirou/gopsutil/v3/mem"
 	"math"
+	"strings"
 )
 
 func staticRam() Ram {
@@ -28,7 +29,9 @@ func (s *System) liveRam() {
 		return
 	}
 	used := r.Used
-	total := r.Total
 	s.Live.Ram.Value = humanize.IBytes(r.Used)
-	s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(used), float64(total)))
+	if strings.HasSuffix(s.Live.Ram.Value, strings.Split(s.Static.Ram.Total, " ")[1]) {
+		s.Live.Ram.Value = strings.Split(s.Live.Ram.Value, " ")[0]
+	}
+	s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(used), float64(r.Total)))
 }
