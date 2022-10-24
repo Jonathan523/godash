@@ -3,6 +3,7 @@
 A blazing fast start-page for your services written in Go.
 
 ![](https://img.shields.io/badge/Language-Go-informational?style=for-the-badge&logo=go&color=00ADD8)
+![](https://img.shields.io/badge/Framework-TailwindCSS-informational?style=for-the-badge&logo=tailwind-css&color=06B6D4)
 
 [![Build Status](https://build.unjx.de/buildStatus/icon?style=flat-square&job=godash%2Fmain)](https://build.unjx.de/job/godash/job/main/)
 
@@ -10,17 +11,17 @@ A blazing fast start-page for your services written in Go.
 
 ## Dark Mode
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/dark.png" alt="dark_mode" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/dark_v1.1.0.png" alt="dark_mode" width="500"/>
 
 ## Light Mode
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/light.png" alt="light_mode" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/light_v1.1.0.png" alt="light_mode" width="500"/>
 
-## Lighthouse speed test
+## Lighthouse performance test
 
 Emulated Moto G4 with Lighthouse 9.6.6, using headless chromium 106.0.5249.103:
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse.png" alt="lighthouse" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse_v1.1.0.png" alt="lighthouse" width="500"/>
 
 ## How to use
 
