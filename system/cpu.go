@@ -10,7 +10,6 @@ import (
 func staticCpu() CPU {
 	var p CPU
 	p.Threads = strconv.Itoa(runtime.NumCPU()) + " threads"
-	p.Architecture = runtime.GOARCH
 	c, err := cpu.Info()
 	if err == nil {
 		p.Name = c[0].ModelName

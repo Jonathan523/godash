@@ -12,4 +12,10 @@
   .system-icon {
     @apply h-8 w-8 shrink-0 mr-3;
   }
+  .extra-icon {
+    @apply h-3 w-3 shrink-0 mr-2;
+  }
+  .extra-sun-icon {
+    @apply h-4 w-4 shrink-0 -mb-1 mr-2;
+  }
 }

@@ -1,114 +1,146 @@
 {{ template "base" . }}
 
 {{ define "title" }}
-    {{ .Title }}
+  {{ .Title }}
 {{ end }}
 
 {{ define "content" }}
-    {{ template "systemIcons" . }}
-    {{ template "weatherIcons" . }}
 
-    {{ if .Weather.Icon }}
-      <div class="flex items-center mb-6 md:mb-10 select-none">
-        <svg class="shrink-0 w-14 h-14 mr-5">
-          <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
-        </svg>
-        <div class="flex flex-col md:flex-row">
-          <div class="text-4xl font-bold mr-8"><span id="weatherTemp">{{ .Weather.Temp }}</span> {{ .Weather.Units }}
+  {{ template "systemIcons" . }}
+  {{ template "weatherIcons" . }}
+
+  {{ if .Weather.Icon }}
+    <div class="flex items-center mb-8 md:mb-12 select-none">
+      <svg class="h-16 w-16 shrink-0 mr-3 md:w-20 md:h-20">
+        <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
+      </svg>
+      <div>
+        <div class="text-4xl md:text-4xl">
+          <span id="weatherTemp">{{ .Weather.Temp }}</span> {{ .Weather.Units }}
+        </div>
+        <div class="flex items-center gap-5 text-xs">
+          <div class="flex items-center">
+            <svg class="extra-icon">
+              <use xlink:href="#quote"></use>
+            </svg>
+            <div id="weatherDescription" class="text-primary">{{ .Weather.Description }}</div>
           </div>
-          <div class="flex flex-col md:flex-row mt-1 text-sm text-primary">
-            <div class="flex items-center md:mr-5">
-              <svg width="14" height="14" class="mr-2">
-                <use xlink:href="#quote"></use>
-              </svg>
-              <div id="weatherDescription">{{ .Weather.Description }}</div>
-            </div>
-            <div class="flex items-center md:mr-5">
-              <svg width="14" height="14" class="mr-2">
-                <use xlink:href="#humidity"></use>
-              </svg>
-              <span id="weatherHumidity">{{ .Weather.Humidity }}</span>%
-            </div>
-            <div class="hidden md:flex items-center">
-              <div class="flex items-center md:mr-5">
-                <svg width="18" height="18" class="mr-2 mt-1">
-                  <use xlink:href="#sunrise"></use>
-                </svg>
-                <div id="weatherSunrise">{{ .Weather.Sunrise }}</div>
-              </div>
-              <div class="flex items-center md:mr-5">
-                <svg width="18" height="18" class="mr-2 mt-1">
-                  <use xlink:href="#sunset"></use>
-                </svg>
-                <div id="weatherSunset">{{ .Weather.Sunset }}</div>
-              </div>
-            </div>
+          <div class="flex items-center">
+            <svg class="extra-icon">
+              <use xlink:href="#humidity"></use>
+            </svg>
+            <div id="weatherHumidity" class="text-primary">{{ .Weather.Humidity }}%</div>
+          </div>
+          <div class="hidden sm:flex items-center">
+            <svg class="extra-sun-icon">
+              <use xlink:href="#sunrise"></use>
+            </svg>
+            <div id="weatherSunrise" class="text-primary">{{ .Weather.Sunrise }}</div>
+          </div>
+          <div class="hidden sm:flex items-center">
+            <svg class="extra-sun-icon">
+              <use xlink:href="#sunset"></use>
+            </svg>
+            <div id="weatherSunset" class="text-primary">{{ .Weather.Sunset }}</div>
           </div>
         </div>
       </div>
-    {{ end }}
-
-    {{ if .System.Static.CPU.Name }}
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6 md:mb-10 select-none">
-        <div class="flex items-center">
-          <svg class="system-icon">
-            <use xlink:href="#cpu"></use>
-          </svg>
-          <div class="w-full truncate">
-            <div class="font-light text-primary text-xs truncate">{{ .System.Static.CPU.Threads }}</div>
-            <div class="truncate">{{ .System.Static.CPU.Name }}</div>
-            <div class="progress-bar-wrapper">
-              <div id="systemCpuPercentage" class="progress-bar"
-                   style="width: {{ .System.Live.CPU }}%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <svg class="system-icon">
-            <use xlink:href="#ram"></use>
-          </svg>
-          <div class="w-full truncate">
-            <div class="font-light text-primary text-xs truncate">{{ .System.Static.Ram.Swap }}</div>
-            <div class="truncate">
-              <span id="systemRamValue">{{ .System.Live.Ram.Value }}</span> / {{ .System.Static.Ram.Total }}
-            </div>
-            <div class="progress-bar-wrapper">
-              <div id="systemRamPercentage" class="progress-bar"
-                   style="width: {{ .System.Live.Ram.Percentage }}%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <svg class="system-icon">
-            <use xlink:href="#disk"></use>
-          </svg>
-          <div class="w-full truncate">
-            <div class="font-light text-primary text-xs truncate">{{ .System.Static.Disk.Partitions }}</div>
-            <div class="truncate">
-              <span id="systemDiskValue">{{ .System.Live.Disk.Value }}</span> / {{ .System.Static.Disk.Total }}
-            </div>
-            <div class="progress-bar-wrapper">
-              <div id="systemDiskPercentage" class="progress-bar"
-                   style="width: {{ .System.Live.Disk.Percentage }}%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {{ end }}
-
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-        {{ range .Bookmarks }}
-          <a
-                  href="{{ .Url }}"
-                  class="bookmark-link flex items-center no-underline hover:underline underline-offset-2 decoration-primary text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all ease-linear duration-150"
-          >
-            <div class="img rounded-md w-8 h-8 bg-cover bg-center opacity-90"
-                 style="background-image: url({{ .Icon }})"></div>
-            <div class="uppercase truncate ml-2">
-                {{ .Name }}
-            </div>
-          </a>
-        {{ end }}
     </div>
+  {{ end }}
+
+  {{ if .System.Static.CPU.Name }}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8 md:mb-12 select-none">
+      <div class="flex items-center">
+        <svg class="system-icon">
+          <use xlink:href="#cpu"></use>
+        </svg>
+        <div class="w-full truncate">
+          <div class="font-light text-primary text-xs truncate">{{ .System.Static.CPU.Threads }}</div>
+          <div class="truncate">{{ .System.Static.CPU.Name }}</div>
+          <div class="progress-bar-wrapper">
+            <div id="systemCpuPercentage" class="progress-bar" style="width: {{ .System.Live.CPU }}%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <svg class="system-icon">
+          <use xlink:href="#ram"></use>
+        </svg>
+        <div class="w-full truncate">
+          <div class="font-light text-primary text-xs truncate">{{ .System.Static.Ram.Swap }}</div>
+          <div class="truncate">
+            <span id="systemRamValue">{{ .System.Live.Ram.Value }}</span> /
+            {{ .System.Static.Ram.Total }}
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="systemRamPercentage" class="progress-bar" style="width: {{ .System.Live.Ram.Percentage }}%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <svg class="system-icon">
+          <use xlink:href="#disk"></use>
+        </svg>
+        <div class="w-full truncate">
+          <div class="font-light text-primary text-xs truncate">{{ .System.Static.Disk.Partitions }}</div>
+          <div class="truncate">
+            <span id="systemDiskValue">{{ .System.Live.Disk.Value }}</span> /
+            {{ .System.Static.Disk.Total }}
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="systemDiskPercentage" class="progress-bar" style="width: {{ .System.Live.Disk.Percentage }}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center ">
+        <svg class="system-icon">
+          <use xlink:href="#power"></use>
+        </svg>
+        <div>
+          <div class="flex gap-3 text-normal md:text-xl">
+            <div>
+              <span class="countdown font-mono"><span id="uptimeDays" style="--value:{{ .System.Live.Uptime.Days }};"></span></span> days
+            </div>
+            <div>
+              <span class="countdown font-mono"><span id="uptimeHours" style="--value:{{ .System.Live.Uptime.Hours }};"></span></span> hours
+            </div>
+            <div>
+              <span class="countdown font-mono"><span id="uptimeMinutes" style="--value:{{ .System.Live.Uptime.Minutes }};"></span></span> min
+            </div>
+            <div>
+              <span class="countdown font-mono"><span id="uptimeSeconds" style="--value:{{ .System.Live.Uptime.Seconds }};"></span></span> sec
+            </div>
+          </div>
+          <div class="flex items-center gap-5 text-xs">
+            <div class="flex items-center">
+              <svg class="extra-icon">
+                <use xlink:href="#server"></use>
+              </svg>
+              <div class="text-primary">{{ .System.Static.Host.Architecture }}</div>
+            </div>
+            <div class="flex items-center">
+              <svg class="extra-icon">
+                <use xlink:href="#host"></use>
+              </svg>
+              <div class="text-primary">{{ .System.Static.Host.HostName }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{ end }}
+
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+    {{ range .Bookmarks }}
+      <a
+        href="{{ .Url }}"
+        class="bookmark-link flex items-center no-underline md:hover:underline underline-offset-2 decoration-primary text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all ease-linear duration-150"
+      >
+        <div class="img rounded-md w-8 h-8 bg-cover bg-center opacity-90" style="background-image: url({{ .Icon }})"></div>
+        <div class="uppercase truncate ml-2">{{ .Name }}</div>
+      </a>
+    {{ end }}
+  </div>
 {{ end }}

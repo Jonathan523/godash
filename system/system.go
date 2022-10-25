@@ -29,9 +29,10 @@ func (s *System) UpdateLiveInformation() {
 }
 
 func (s *System) Initialize() {
+	s.Static.Host = staticHost()
 	s.Static.CPU = staticCpu()
 	s.Static.Ram = staticRam()
 	s.Static.Disk = staticDisk()
 	go s.UpdateLiveInformation()
-	logrus.WithFields(logrus.Fields{"cpu": s.Static.CPU.Name, "arch": s.Static.CPU.Architecture}).Debug("system updated")
+	logrus.WithFields(logrus.Fields{"cpu": s.Static.CPU.Name, "arch": s.Static.Host.Architecture}).Debug("system updated")
 }

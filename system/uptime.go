@@ -9,6 +9,8 @@ func (s *System) uptime() {
 	if err != nil {
 		return
 	}
-	// returns uptime in milliseconds
-	s.Live.ServerUptime = i.Uptime * 1000
+	s.Live.Uptime.Days = i.Uptime / 84600
+	s.Live.Uptime.Hours = (i.Uptime % 86400) / 3600
+	s.Live.Uptime.Minutes = ((i.Uptime % 86400) % 3600) / 60
+	s.Live.Uptime.Seconds = ((i.Uptime % 86400) % 3600) % 60
 }

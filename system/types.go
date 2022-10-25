@@ -10,16 +10,27 @@ type LiveStorageInformation struct {
 }
 
 type LiveInformation struct {
-	CPU          float64                `json:"cpu"`
-	Ram          LiveStorageInformation `json:"ram"`
-	Disk         LiveStorageInformation `json:"disk"`
-	ServerUptime uint64                 `json:"server_uptime"`
+	CPU    float64                `json:"cpu"`
+	Ram    LiveStorageInformation `json:"ram"`
+	Disk   LiveStorageInformation `json:"disk"`
+	Uptime Uptime                 `json:"uptime"`
+}
+
+type Uptime struct {
+	Days    uint64 `json:"days"`
+	Hours   uint64 `json:"hours"`
+	Minutes uint64 `json:"minutes"`
+	Seconds uint64 `json:"seconds"`
 }
 
 type CPU struct {
-	Name         string `json:"name"`
-	Threads      string `json:"threads"`
+	Name    string `json:"name"`
+	Threads string `json:"threads"`
+}
+
+type Host struct {
 	Architecture string `json:"architecture"`
+	HostName     string `json:"host_name"`
 }
 
 type Ram struct {
@@ -36,6 +47,7 @@ type StaticInformation struct {
 	CPU  CPU  `json:"cpu"`
 	Ram  Ram  `json:"ram"`
 	Disk Disk `json:"disk"`
+	Host Host `json:"host"`
 }
 
 type System struct {

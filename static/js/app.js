@@ -1,6 +1,6 @@
 // webSocket
 const WsType = { Weather: 0, System: 1 };
-const wsUrl = (window.location.origin.replace("http", "ws") )+ "/ws";
+const wsUrl = window.location.origin.replace("http", "ws") + "/ws";
 let timeOut = 1;
 connect();
 
@@ -18,6 +18,10 @@ const systemRamPercentage = document.getElementById("systemRamPercentage");
 const systemRamValue = document.getElementById("systemRamValue");
 const systemDiskPercentage = document.getElementById("systemDiskPercentage");
 const systemDiskValue = document.getElementById("systemDiskValue");
+const uptimeDays = document.getElementById("uptimeDays");
+const uptimeHours = document.getElementById("uptimeHours");
+const uptimeMinutes = document.getElementById("uptimeMinutes");
+const uptimeSeconds = document.getElementById("uptimeSeconds");
 
 function connect() {
   let ws = new WebSocket(wsUrl);
@@ -43,7 +47,7 @@ function replaceWeather(parsed) {
   weatherIcon.setAttribute("xlink:href", "#" + parsed.icon);
   weatherTemp.innerText = parsed.temp;
   weatherDescription.innerText = parsed.description;
-  weatherHumidity.innerText = parsed.humidity;
+  weatherHumidity.innerText = parsed.humidity + "%";
   weatherSunrise.innerText = parsed.sunrise;
   weatherSunset.innerText = parsed.sunset;
 }
@@ -54,4 +58,8 @@ function replaceSystem(parsed) {
   systemRamValue.innerText = parsed.ram.value;
   systemDiskPercentage.style = "width:" + parsed.disk.percentage + "%";
   systemDiskValue.innerText = parsed.disk.value;
+  uptimeDays.style = "--value:" + parsed.uptime.days;
+  uptimeHours.style = "--value:" + parsed.uptime.hours;
+  uptimeMinutes.style = "--value:" + parsed.uptime.minutes;
+  uptimeSeconds.style = "--value:" + parsed.uptime.seconds;
 }
