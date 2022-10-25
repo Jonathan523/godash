@@ -49,13 +49,13 @@
   {{ end }}
 
   {{ if .System.Static.CPU.Name }}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-8 md:mb-12 select-none">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mb-8 md:mb-12 select-none">
       <div class="flex items-center">
         <svg class="system-icon">
           <use xlink:href="#cpu"></use>
         </svg>
         <div class="w-full truncate">
-          <div class="font-light text-primary text-xs truncate">{{ .System.Static.CPU.Threads }}</div>
+          <div class="text-primary text-xs truncate">{{ .System.Static.CPU.Threads }}</div>
           <div class="truncate">{{ .System.Static.CPU.Name }}</div>
           <div class="progress-bar-wrapper">
             <div id="systemCpuPercentage" class="progress-bar" style="width: {{ .System.Live.CPU }}%"></div>
@@ -67,7 +67,7 @@
           <use xlink:href="#ram"></use>
         </svg>
         <div class="w-full truncate">
-          <div class="font-light text-primary text-xs truncate">{{ .System.Static.Ram.Swap }}</div>
+          <div class="text-primary text-xs truncate">{{ .System.Static.Ram.Swap }}</div>
           <div class="truncate">
             <span id="systemRamValue">{{ .System.Live.Ram.Value }}</span> /
             {{ .System.Static.Ram.Total }}
@@ -83,7 +83,7 @@
           <use xlink:href="#disk"></use>
         </svg>
         <div class="w-full truncate">
-          <div class="font-light text-primary text-xs truncate">{{ .System.Static.Disk.Partitions }}</div>
+          <div class="text-primary text-xs truncate">{{ .System.Static.Disk.Partitions }}</div>
           <div class="truncate">
             <span id="systemDiskValue">{{ .System.Live.Disk.Value }}</span> /
             {{ .System.Static.Disk.Total }}
