@@ -2,7 +2,6 @@ package system
 
 import (
 	"github.com/dariubs/percent"
-	"github.com/dustin/go-humanize"
 	"github.com/shirou/gopsutil/v3/mem"
 	"math"
 )
@@ -13,9 +12,9 @@ func staticRam() Ram {
 	if err != nil {
 		return result
 	}
-	result.Total = humanize.IBytes(r.Total)
+	result.Total = readableSize(r.Total)
 	if r.SwapTotal > 0 {
-		result.Swap = humanize.IBytes(r.SwapTotal) + " swap"
+		result.Swap = readableSize(r.SwapTotal) + " swap"
 	} else {
 		result.Swap = "No swap"
 	}
@@ -27,6 +26,6 @@ func (s *System) liveRam() {
 	if err != nil {
 		return
 	}
-	s.Live.Ram.Value = humanize.IBytes(r.Used)
+	s.Live.Ram.Value = readableSize(r.Used)
 	s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(r.Used), float64(r.Total)))
 }
