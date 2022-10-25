@@ -10,7 +10,7 @@ func (s *System) uptime() {
 		return
 	}
 	s.Live.Uptime.Days = i.Uptime / 84600
-	s.Live.Uptime.Hours = (i.Uptime % 86400) / 3600
-	s.Live.Uptime.Minutes = ((i.Uptime % 86400) % 3600) / 60
-	s.Live.Uptime.Seconds = ((i.Uptime % 86400) % 3600) % 60
+	s.Live.Uptime.Hours = uint8((i.Uptime % 86400) / 3600)
+	s.Live.Uptime.Minutes = uint8(((i.Uptime % 86400) % 3600) / 60)
+	s.Live.Uptime.Seconds = uint8(((i.Uptime % 86400) % 3600) % 60)
 }

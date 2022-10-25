@@ -18,6 +18,7 @@ const systemRamPercentage = document.getElementById("systemRamPercentage");
 const systemRamValue = document.getElementById("systemRamValue");
 const systemDiskPercentage = document.getElementById("systemDiskPercentage");
 const systemDiskValue = document.getElementById("systemDiskValue");
+const systemUptimePercentage = document.getElementById("systemUptimePercentage");
 const uptimeDays = document.getElementById("uptimeDays");
 const uptimeHours = document.getElementById("uptimeHours");
 const uptimeMinutes = document.getElementById("uptimeMinutes");
@@ -58,6 +59,7 @@ function replaceSystem(parsed) {
   systemRamValue.innerText = parsed.ram.value;
   systemDiskPercentage.style = "width:" + parsed.disk.percentage + "%";
   systemDiskValue.innerText = parsed.disk.value;
+  systemUptimePercentage.style = "width:" + (parsed.uptime.seconds / 60) * 100 + "%";
   uptimeDays.style = "--value:" + parsed.uptime.days;
   uptimeHours.style = "--value:" + parsed.uptime.hours;
   uptimeMinutes.style = "--value:" + parsed.uptime.minutes;

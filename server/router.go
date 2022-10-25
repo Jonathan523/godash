@@ -6,9 +6,9 @@ import (
 )
 
 func (server *Server) setupRouter() {
-	server.Router.Get("/", launchpad)
+	server.Router.Get("/", goDash)
 	server.Router.Get("/ws", webSocket)
-	
+
 	server.serveStatic("static")
 	server.serveStatic("storage/icons")
 

@@ -10,7 +10,7 @@
     @apply bg-primary-content h-1 rounded-full mt-1;
   }
   .system-icon {
-    @apply h-8 w-8 shrink-0 mr-3;
+    @apply h-8 w-8 shrink-0 mr-3 opacity-90;
   }
   .extra-icon {
     @apply h-3 w-3 shrink-0 mr-2;

@@ -6,7 +6,6 @@ import (
 	"github.com/shirou/gopsutil/v3/disk"
 	"math"
 	"strconv"
-	"strings"
 )
 
 func staticDisk() Disk {
@@ -26,10 +25,6 @@ func (s *System) liveDisk() {
 	if err != nil {
 		return
 	}
-	used := d.Used
 	s.Live.Disk.Value = humanize.IBytes(d.Used)
-	if strings.HasSuffix(s.Live.Disk.Value, strings.Split(s.Static.Disk.Total, " ")[1]) {
-		s.Live.Disk.Value = strings.Split(s.Live.Disk.Value, " ")[0]
-	}
-	s.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(used), float64(d.Total)))
+	s.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(d.Used), float64(d.Total)))
 }

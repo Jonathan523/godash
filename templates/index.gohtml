@@ -49,7 +49,7 @@
   {{ end }}
 
   {{ if .System.Static.CPU.Name }}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8 md:mb-12 select-none">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-8 md:mb-12 select-none">
       <div class="flex items-center">
         <svg class="system-icon">
           <use xlink:href="#cpu"></use>
@@ -77,6 +77,7 @@
           </div>
         </div>
       </div>
+
       <div class="flex items-center">
         <svg class="system-icon">
           <use xlink:href="#disk"></use>
@@ -93,32 +94,26 @@
         </div>
       </div>
 
-      <div class="flex items-center ">
+      <div class="flex items-center">
         <svg class="system-icon">
-          <use xlink:href="#power"></use>
+          <use xlink:href="#server"></use>
         </svg>
-        <div>
-          <div class="flex gap-3 text-normal md:text-xl">
-            <div>
-              <span class="countdown font-mono"><span id="uptimeDays" style="--value:{{ .System.Live.Uptime.Days }};"></span></span> days
-            </div>
-            <div>
-              <span class="countdown font-mono"><span id="uptimeHours" style="--value:{{ .System.Live.Uptime.Hours }};"></span></span> hours
-            </div>
-            <div>
-              <span class="countdown font-mono"><span id="uptimeMinutes" style="--value:{{ .System.Live.Uptime.Minutes }};"></span></span> min
-            </div>
-            <div>
-              <span class="countdown font-mono"><span id="uptimeSeconds" style="--value:{{ .System.Live.Uptime.Seconds }};"></span></span> sec
-            </div>
-          </div>
+        <div class="w-full truncate">
           <div class="flex items-center gap-5 text-xs">
-            <div class="flex items-center">
-              <svg class="extra-icon">
-                <use xlink:href="#server"></use>
-              </svg>
+            <div class="truncate">
               <div class="text-primary">{{ .System.Static.Host.Architecture }}</div>
             </div>
+          </div>
+          <div class="flex items-center gap-2 truncate">
+            <div class="truncate">
+              <span class="countdown"><span id="uptimeDays" style="--value:{{ .System.Live.Uptime.Days }};"></span> days</span>
+              <span class="countdown"><span id="uptimeHours" style="--value:{{ .System.Live.Uptime.Hours }};"></span> hours</span>
+              <span class="countdown"><span id="uptimeMinutes" style="--value:{{ .System.Live.Uptime.Minutes }};"></span> min</span>
+              <span class="countdown"><span id="uptimeSeconds" style="--value:{{ .System.Live.Uptime.Seconds }};"></span> sec</span>
+            </div>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="systemUptimePercentage" class="progress-bar" style="width: {{ .System.Live.Uptime.SecondsPercent }}%"></div>
           </div>
         </div>
       </div>

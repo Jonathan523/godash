@@ -19,14 +19,16 @@ type launchpadInformation struct {
 	System    system.System
 }
 
-func launchpad(w http.ResponseWriter, r *http.Request) {
+func goDash(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	files.ParseAndServeHtml(w, "index.gohtml", launchpadInformation{
+	context := launchpadInformation{
 		Title:     "GoDash",
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentWeather,
 		System:    system.Sys,
-	})
+	}
+	context.System.Live.Uptime.SecondsPercent = float32(context.System.Live.Uptime.Seconds) / 60 * 100
+	files.ParseAndServeHtml(w, "index.gohtml", context)
 }
 
 func webSocket(w http.ResponseWriter, r *http.Request) {
