@@ -11,7 +11,7 @@
 
   {{ if .Weather.Icon }}
     <div class="flex items-center mb-8 md:mb-12 select-none">
-      <svg class="h-16 w-16 shrink-0 mr-3 md:w-20 md:h-20">
+      <svg class="h-12 w-12 shrink-0 mr-4 md:w-14 md:h-14">
         <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
       </svg>
       <div>
@@ -106,14 +106,14 @@
           </div>
           <div class="flex items-center gap-2 truncate">
             <div class="truncate">
-              <span class="countdown"><span id="uptimeDays" style="--value:{{ .System.Live.Uptime.Days }};"></span> days</span>
-              <span class="countdown"><span id="uptimeHours" style="--value:{{ .System.Live.Uptime.Hours }};"></span> hours</span>
-              <span class="countdown"><span id="uptimeMinutes" style="--value:{{ .System.Live.Uptime.Minutes }};"></span> min</span>
-              <span class="countdown"><span id="uptimeSeconds" style="--value:{{ .System.Live.Uptime.Seconds }};"></span> sec</span>
+              <span><span id="uptimeDays">{{ .System.Live.Uptime.Days }}</span> days</span>
+              <span class="countdown"><span id="uptimeHours" style="--value:{{ .System.Live.Uptime.Hours }};"></span></span> hours
+              <span class="countdown"><span id="uptimeMinutes" style="--value:{{ .System.Live.Uptime.Minutes }};"></span></span> min
+              <span class="countdown"><span id="uptimeSeconds" style="--value:{{ .System.Live.Uptime.Seconds }};"></span></span> sec
             </div>
           </div>
           <div class="progress-bar-wrapper">
-            <div id="systemUptimePercentage" class="progress-bar" style="width: {{ .System.Live.Uptime.SecondsPercent }}%"></div>
+            <div id="systemUptimePercentage" class="progress-bar" style="width: {{ .System.Live.Uptime.Percentage }}%"></div>
           </div>
         </div>
       </div>

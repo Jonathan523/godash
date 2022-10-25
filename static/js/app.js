@@ -59,7 +59,7 @@ function replaceSystem(parsed) {
   systemRamValue.innerText = parsed.ram.value;
   systemDiskPercentage.style = "width:" + parsed.disk.percentage + "%";
   systemDiskValue.innerText = parsed.disk.value;
-  systemUptimePercentage.style = "width:" + (parsed.uptime.seconds / 60) * 100 + "%";
+  systemUptimePercentage.style = "width:" + parsed.uptime.percentage + "%";
   uptimeDays.style = "--value:" + parsed.uptime.days;
   uptimeHours.style = "--value:" + parsed.uptime.hours;
   uptimeMinutes.style = "--value:" + parsed.uptime.minutes;
