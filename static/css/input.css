@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .progress-bar {
+    @apply transition-[width] duration-700 bg-primary h-1 rounded-full;
+  }
+  .progress-bar-wrapper {
+    @apply bg-primary-content h-1 rounded-full mt-1;
+  }
+  .system-icon {
+    @apply h-8 w-8 shrink-0 mr-3;
+  }
+}

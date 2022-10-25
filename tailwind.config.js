@@ -4,5 +4,10 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["corporate", "halloween"],
+    logs: false,
+    darkTheme: "halloween",
+  },
 };

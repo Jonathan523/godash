@@ -1,13 +1,12 @@
 {
   "scripts": {
-    "dev": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
+    "devTailwind": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
+    "devGo": "nodemon --exec go run main.go --signal SIGTERM",
     "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css"
   },
   "devDependencies": {
-    "openapi-typescript": "^5.4.1",
-    "openapi-typescript-codegen": "^0.23.0",
+    "daisyui": "^2.33.0",
     "prettier": "^2.7.1",
-    "prettier-plugin-go-template": "^0.0.13",
     "tailwindcss": "^3.2.0"
   },
   "prettier": {
