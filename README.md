@@ -11,11 +11,11 @@ A blazing fast start-page for your services written in Go.
 
 ## Dark Mode
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/dark_v1.1.2.png" alt="dark_mode" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/dark_v1.1.3.png" alt="dark_mode" width="600"/>
 
 ## Light Mode
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/light_v1.1.2.png" alt="light_mode" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/light_v1.1.3.png" alt="light_mode" width="600"/>
 
 ## Lighthouse performance test
 
