@@ -28,7 +28,7 @@ COPY --from=logo /logo/logo.txt .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-COPY --from=go /backend/config/ ./config/
+COPY --from=go /backend/config/*.json ./config/
 COPY --from=go /backend/templates ./templates/
 COPY --from=go /backend/static ./static/
 COPY --from=go /backend/app .

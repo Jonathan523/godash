@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        VERSION = "v1.1.3"
+        VERSION = "v1.1.4"
         PROJECT_NAME = JOB_NAME.split('/')
         IMAGE_NAME = "unjxde/${PROJECT_NAME[0]}"
         IMAGE = ''
