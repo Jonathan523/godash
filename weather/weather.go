@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var Conf = Config{}
+var Conf = PackageConfig{}
 var CurrentWeather = Weather{}
 
 func NewWeatherService() {

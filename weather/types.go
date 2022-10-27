@@ -1,6 +1,6 @@
 package weather
 
-type Config struct {
+type PackageConfig struct {
 	Location    Location
 	OpenWeather OpenWeather `mapstructure:"OPEN_WEATHER"`
 	Current     OpenWeatherApiResponse

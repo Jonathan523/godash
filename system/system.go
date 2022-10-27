@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var Config = SystemConfig{}
+var Config = PackageConfig{}
 var Sys = System{}
 
 func NewSystemService() {

@@ -1,5 +1,5 @@
 package logging
 
-type Config struct {
+type PackageConfig struct {
 	LogLevel string `mapstructure:"LOG_LEVEL"`
 }

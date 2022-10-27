@@ -1,6 +1,6 @@
 package system
 
-type SystemConfig struct {
+type PackageConfig struct {
 	LiveSystem bool `mapstructure:"LIVE_SYSTEM"`
 }
 
@@ -31,7 +31,6 @@ type CPU struct {
 
 type Host struct {
 	Architecture string `json:"architecture"`
-	HostName     string `json:"host_name"`
 }
 
 type Ram struct {

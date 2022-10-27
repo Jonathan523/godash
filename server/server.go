@@ -10,14 +10,6 @@ import (
 	"net/http"
 )
 
-type Server struct {
-	Router       *chi.Mux
-	Hub          *hub.Hub
-	Port         int
-	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
-	Swagger      bool
-}
-
 var server = Server{}
 
 func NewServer() {
