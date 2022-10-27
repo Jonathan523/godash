@@ -17,7 +17,7 @@ const StorageDir = "storage/"
 const IconsDir = StorageDir + "icons/"
 const bookmarksFile = "bookmarks.json"
 
-func init() {
+func NewBookmarkService() {
 	createFolderStructure()
 	parseBookmarks()
 	go watchBookmarks()

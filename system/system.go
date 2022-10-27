@@ -10,7 +10,7 @@ import (
 var Config = SystemConfig{}
 var Sys = System{}
 
-func NewSystem() {
+func NewSystemService() {
 	config.ParseViperConfig(&Config, config.AddViperConfig("system"))
 	if Config.LiveSystem {
 		Sys.Initialize()

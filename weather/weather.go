@@ -14,7 +14,7 @@ import (
 var Conf = Config{}
 var CurrentWeather = Weather{}
 
-func NewWeather() {
+func NewWeatherService() {
 	config.ParseViperConfig(&Conf, config.AddViperConfig("weather"))
 	if Conf.OpenWeather.Key != "" {
 		setWeatherUnits()

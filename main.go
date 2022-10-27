@@ -1,6 +1,7 @@
 package main
 
 import (
+	"godash/bookmark"
 	"godash/logging"
 	"godash/server"
 	"godash/system"
@@ -9,7 +10,8 @@ import (
 
 func main() {
 	logging.NewGlobalLogger()
-	weather.NewWeather()
-	system.NewSystem()
+	weather.NewWeatherService()
+	system.NewSystemService()
+	bookmark.NewBookmarkService()
 	server.NewServer()
 }
