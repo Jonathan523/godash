@@ -6,10 +6,10 @@
 
 {{ define "content" }}
 
-  {{ template "systemIcons" . }}
-  {{ template "weatherIcons" . }}
-
   {{ if .Weather.Icon }}
+    {{ template "weatherIcons" . }}
+
+
     <div class="flex items-center mb-8 md:mb-12 select-none">
       <svg class="h-12 w-12 shrink-0 mr-4 md:w-14 md:h-14">
         <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
@@ -49,6 +49,9 @@
   {{ end }}
 
   {{ if .System.Static.CPU.Name }}
+    {{ template "systemIcons" . }}
+
+
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mb-8 md:mb-12 select-none">
       <div class="flex items-center">
         <svg class="system-icon">
