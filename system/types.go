@@ -18,9 +18,9 @@ type LiveInformation struct {
 
 type Uptime struct {
 	Days       uint64  `json:"days"`
-	Hours      uint8   `json:"hours"`
-	Minutes    uint8   `json:"minutes"`
-	Seconds    uint8   `json:"seconds"`
+	Hours      uint16  `json:"hours"`
+	Minutes    uint16  `json:"minutes"`
+	Seconds    uint16  `json:"seconds"`
 	Percentage float32 `json:"percentage"`
 }
 
