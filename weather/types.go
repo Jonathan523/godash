@@ -12,16 +12,17 @@ type Location struct {
 }
 
 type OpenWeather struct {
-	Key   string
-	Units string
-	Lang  string
+	Key    string
+	Units  string
+	Lang   string
+	Digits bool
 }
 
 type Weather struct {
 	Icon        string  `json:"icon"`
-	Temp        float32 `json:"temp"`
+	Temp        float64 `json:"temp"`
 	Description string  `json:"description"`
-	Humidity    float32 `json:"humidity"`
+	Humidity    uint8   `json:"humidity"`
 	Sunrise     string  `json:"sunrise"`
 	Sunset      string  `json:"sunset"`
 	Units       string  `json:"units"`
@@ -39,8 +40,8 @@ type OpenWeatherApiWeather struct {
 }
 
 type OpenWeatherApiMain struct {
-	Temp     float32 `json:"temp"`
-	Humidity float32 `json:"humidity"`
+	Temp     float64 `json:"temp"`
+	Humidity uint8   `json:"humidity"`
 }
 
 type OpenWeatherApiSys struct {

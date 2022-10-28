@@ -7,6 +7,7 @@ import (
 	"godash/config"
 	"godash/hub"
 	"io"
+	"math"
 	"net/http"
 	"time"
 )
@@ -36,7 +37,12 @@ func copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
 	myTime = time.Unix(weatherResp.Sys.Sunset, 0)
 	CurrentWeather.Sunset = myTime.Format("15:04")
 	CurrentWeather.Icon = weatherResp.Weather[0].Icon
-	CurrentWeather.Temp = weatherResp.Main.Temp
+	fmt.Println(weatherResp.Main.Temp)
+	if Conf.OpenWeather.Digits {
+		CurrentWeather.Temp = weatherResp.Main.Temp
+	} else {
+		CurrentWeather.Temp = math.Round(weatherResp.Main.Temp)
+	}
 	CurrentWeather.Description = weatherResp.Weather[0].Description
 	CurrentWeather.Humidity = weatherResp.Main.Humidity
 }

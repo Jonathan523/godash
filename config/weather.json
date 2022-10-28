@@ -6,6 +6,7 @@
   "open_weather": {
     "key": "",
     "units": "metric",
-    "lang": "en"
+    "lang": "en",
+    "digits": true
   }
 }
