@@ -59,6 +59,7 @@ The name and related link can be provided as well.
 ```toml
 PORT = 4000
 ALLOWED_HOSTS = "http://localhost:4000"
+TITLE = "GoDash"
 
 LOG_LEVEL = "info"
 
@@ -90,6 +91,8 @@ services:
       - TZ=Europe/Berlin
       # can be multiple hosts, comma separated, no spaces
       - ALLOWED_HOSTS=https://home.example.com
+      # change title to something else
+      - TITLE=GoDash
       # available log-levels: trace,debug,info,warn,error,fatal,panic
       - LOG_LEVEL=info
       # create account here to get free key:
