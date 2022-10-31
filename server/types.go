@@ -10,5 +10,5 @@ type Server struct {
 	Hub          *hub.Hub
 	Port         int
 	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
-	Swagger      bool
+	Title        string
 }

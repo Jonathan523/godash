@@ -19,10 +19,10 @@ type launchpadInformation struct {
 	System    system.System
 }
 
-func goDash(w http.ResponseWriter, r *http.Request) {
+func (server *Server) goDash(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	files.ParseAndServeHtml(w, "index.gohtml", launchpadInformation{
-		Title:     "GoDash",
+		Title:     server.Title,
 		Bookmarks: bookmark.Bookmarks,
 		Weather:   weather.CurrentWeather,
 		System:    system.Sys,

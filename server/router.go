@@ -6,7 +6,7 @@ import (
 )
 
 func (server *Server) setupRouter() {
-	server.Router.Get("/", goDash)
+	server.Router.Get("/", server.goDash)
 	server.Router.Get("/ws", webSocket)
 
 	server.serveStatic("static")
