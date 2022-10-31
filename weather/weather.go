@@ -37,7 +37,6 @@ func copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
 	myTime = time.Unix(weatherResp.Sys.Sunset, 0)
 	CurrentWeather.Sunset = myTime.Format("15:04")
 	CurrentWeather.Icon = weatherResp.Weather[0].Icon
-	fmt.Println(weatherResp.Main.Temp)
 	if Conf.OpenWeather.Digits {
 		CurrentWeather.Temp = weatherResp.Main.Temp
 	} else {
