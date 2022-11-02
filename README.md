@@ -113,6 +113,7 @@ services:
     volumes:
       # to mount the bookmarks.json and the icons folder on the system
       - ./storage:/app/storage
+    # https://docs.docker.com/compose/compose-file/compose-file-v3/#ports
     ports:
-      - "127.0.0.1:4000:4000"
+      - "4000:4000"
 ```
