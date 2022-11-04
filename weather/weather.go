@@ -55,8 +55,8 @@ func updateWeather(interval time.Duration) {
 			Conf.OpenWeather.Key,
 			Conf.OpenWeather.Units,
 			Conf.OpenWeather.Lang))
-		if err != nil {
-			logrus.Error("weather cannot be updated")
+		if err != nil || resp.StatusCode != 200 {
+			logrus.Error("weather cannot be updated, please check OPEN_WEATHER_KEY")
 		} else {
 			body, _ := io.ReadAll(resp.Body)
 			err = json.Unmarshal(body, &weatherResponse)
@@ -64,7 +64,7 @@ func updateWeather(interval time.Duration) {
 				logrus.Error("weather cannot be processed")
 			} else {
 				copyWeatherValues(&weatherResponse)
-				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentWeather.Temp, CurrentWeather.Units), "humidity": fmt.Sprintf("%0.2f%s", CurrentWeather.Humidity, "%")}).Trace("weather updated")
+				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentWeather.Temp, CurrentWeather.Units), "humidity": fmt.Sprintf("%d%s", CurrentWeather.Humidity, "%")}).Trace("weather updated")
 			}
 			resp.Body.Close()
 		}
