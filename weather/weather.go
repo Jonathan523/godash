@@ -67,8 +67,8 @@ func updateWeather(interval time.Duration) {
 				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentWeather.Temp, CurrentWeather.Units), "humidity": fmt.Sprintf("%d%s", CurrentWeather.Humidity, "%")}).Trace("weather updated")
 			}
 			resp.Body.Close()
+			hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentWeather}
 		}
-		hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentWeather}
 		time.Sleep(interval)
 	}
 }
