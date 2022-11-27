@@ -1,5 +1,5 @@
 {
   "port": 4000,
-  "allowed_hosts": "http://localhost:4000",
+  "PAGE_URL": "http://localhost:4000",
   "title": "GoDash"
 }

@@ -6,9 +6,9 @@ import (
 )
 
 type Server struct {
-	Router       *chi.Mux
-	Hub          *hub.Hub
-	Port         int
-	AllowedHosts []string `mapstructure:"ALLOWED_HOSTS"`
-	Title        string
+	Router  *chi.Mux
+	Hub     *hub.Hub
+	Port    int
+	PageUrl string `mapstructure:"PAGE_URL"`
+	Title   string
 }

@@ -5,18 +5,9 @@ import (
 	"net/http"
 )
 
-func inAllowedHosts(str string) bool {
-	for _, a := range server.AllowedHosts {
-		if a == str {
-			return true
-		}
-	}
-	return false
-}
-
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		return inAllowedHosts(r.Header.Get("Origin"))
+		return server.PageUrl == r.Header.Get("Origin")
 	},
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
