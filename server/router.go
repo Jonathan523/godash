@@ -1,25 +1,29 @@
 package server
 
 import (
-	"godash/files"
-	"net/http"
+	"context"
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
 
 func (server *Server) setupRouter() {
-	server.Router.Get("/", server.goDash)
-	server.Router.Get("/ws", webSocket)
+	server.Router.GET("/", server.goDash)
+	server.Router.GET("/ws", webSocket)
 
 	server.serveStatic("static")
 	server.serveStatic("storage/icons")
 
-	server.Router.Get("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, files.TemplatesFolder+"/robots.txt")
+	server.Router.GET("/robots.txt", func(c context.Context, ctx *app.RequestContext) {
+		ctx.File(TemplatesFolder + "/robots.txt")
 	})
-	server.Router.Get("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "static/favicon/favicon.ico")
+	server.Router.GET("/favicon.ico", func(c context.Context, ctx *app.RequestContext) {
+		ctx.File("static/favicon/favicon.ico")
 	})
 
-	server.Router.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	server.Router.NoMethod(func(c context.Context, ctx *app.RequestContext) {
+		ctx.Redirect(consts.StatusPermanentRedirect, []byte("/"))
+	})
+	server.Router.NoRoute(func(c context.Context, ctx *app.RequestContext) {
+		ctx.Redirect(consts.StatusPermanentRedirect, []byte("/"))
 	})
 }

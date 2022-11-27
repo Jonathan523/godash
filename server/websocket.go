@@ -1,16 +1,14 @@
 package server
 
 import (
-	"github.com/gorilla/websocket"
-	"net/http"
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/hertz-contrib/websocket"
 )
 
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return server.PageUrl == r.Header.Get("Origin")
+var upgrader = websocket.HertzUpgrader{
+	CheckOrigin: func(ctx *app.RequestContext) bool {
+		return server.PageUrl == string(ctx.GetHeader("Origin"))
 	},
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
 }
 
 func readPump(conn *websocket.Conn) {
