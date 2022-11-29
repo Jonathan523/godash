@@ -196,6 +196,8 @@ github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjY
 github.com/nyaruka/phonenumbers v1.0.55/go.mod h1:sDaTZ/KPX5f8qyV9qN+hIm+4ZBARJrupC6LuhshJq1U=
 github.com/nyaruka/phonenumbers v1.1.2 h1:MIDljnA08HCUzgNOrkCYja7CJ5U9ylZ+U3Sge8RWW14=
 github.com/nyaruka/phonenumbers v1.1.2/go.mod h1:cGaEsOrLjIL0iKGqJR5Rfywy86dSkbApEpXuM9KySNA=
+github.com/nyaruka/phonenumbers v1.1.4 h1:de8exybd7+g9q+gXP04Ypt9ijFYXXm8wrgqPf+Ckk20=
+github.com/nyaruka/phonenumbers v1.1.4/go.mod h1:yShPJHDSH3aTKzCbXyVxNpbl2kA+F+Ne5Pun/MvFRos=
 github.com/pelletier/go-toml v1.9.5 h1:4yBQzkHv+7BHq2PQUZF3Mx0IYxG7LsP222s7Agd3ve8=
 github.com/pelletier/go-toml v1.9.5/go.mod h1:u1nR/EPcESfeI/szUZKdtJ0xRNbUoANCkoOuaOx1Y+c=
 github.com/pelletier/go-toml/v2 v2.0.6 h1:nrzqCb7j9cDFj2coyLNLaZuJTLjWjlaz6nvTvIwycIU=

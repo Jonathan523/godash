@@ -30,7 +30,7 @@ require (
 	github.com/klauspost/cpuid/v2 v2.2.1 // indirect
 	github.com/lufia/plan9stats v0.0.0-20220913051719-115f729f3c8c // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
-	github.com/nyaruka/phonenumbers v1.1.2 // indirect
+	github.com/nyaruka/phonenumbers v1.1.4 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/power-devops/perfstat v0.0.0-20220216144756-c35f1ee13d7c // indirect
