@@ -2,7 +2,6 @@ package bookmark
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	folderCreate "github.com/unjx-de/go-folder"
@@ -68,9 +67,9 @@ func readBookmarksFile() []byte {
 
 func replaceIconString() {
 	for _, v := range Categories {
-		for _, bookmark := range v.Bookmarks {
+		for i, bookmark := range v.Bookmarks {
 			if !strings.Contains(bookmark.Icon, "http") {
-				bookmark.Icon = "/" + IconsDir + bookmark.Icon
+				v.Bookmarks[i].Icon = "/" + IconsDir + bookmark.Icon
 			}
 		}
 	}
@@ -83,7 +82,6 @@ func parseBookmarks() {
 		logrus.WithField("file", bookmarksFile).Error(message.CannotParse.String())
 		return
 	}
-	fmt.Println(Categories)
 	replaceIconString()
 }
 
