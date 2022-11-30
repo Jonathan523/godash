@@ -1,7 +1,12 @@
 package bookmark
 
+type Category struct {
+	Description string     `json:"description"`
+	Bookmarks   []Bookmark `json:"bookmarks"`
+}
+
 type Bookmark struct {
-	Name string `json:"name" validate:"required"`
-	Icon string `json:"icon" validate:"required"`
-	Url  string `json:"url" validate:"required"`
+	Name string `json:"name"`
+	Icon string `json:"icon"`
+	Url  string `json:"url"`
 }

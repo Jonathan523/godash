@@ -1,7 +1,32 @@
 [
   {
-    "NAME": "Github",
-    "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-    "URL": "https://github.com"
+    "DESCRIPTION": "First",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      }
+    ]
+  },
+  {
+    "DESCRIPTION": "",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      }
+    ]
+  },
+  {
+    "DESCRIPTION": "Third",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      }
+    ]
   }
 ]
