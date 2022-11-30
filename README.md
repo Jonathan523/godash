@@ -39,17 +39,43 @@ Changes are printed in stdout when running with `LOG_LEVEL=trace`.
 You can specify an icon of a bookmark either by using a link or by using the name of the file located inside the `./storage/icons` folder that is mounted via the docker compose file.
 The name and related link can be provided as well.
 
+**bookmarks.json example:**
 ```json
 [
   {
-    "NAME": "Github",
-    "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-    "URL": "https://github.com"
+    "DESCRIPTION": "First",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      },
+      {
+        "NAME": "Jenkins",
+        "ICON": "jenkins.webp",
+        "URL": "https://www.jenkins.io/"
+      }
+    ]
   },
   {
-    "NAME": "Jenkins",
-    "ICON": "jenkins.webp",
-    "URL": "https://www.jenkins.io/"
+    "DESCRIPTION": "",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      }
+    ]
+  },
+  {
+    "DESCRIPTION": "Third",
+    "BOOKMARKS": [
+      {
+        "NAME": "Github",
+        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        "URL": "https://github.com"
+      }
+    ]
   }
 ]
 ```
