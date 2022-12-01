@@ -43,7 +43,7 @@ The name and related link can be provided as well.
 ```json
 [
   {
-    "DESCRIPTION": "First",
+    "CATEGORY": "First",
     "BOOKMARKS": [
       {
         "NAME": "Github",
@@ -58,7 +58,7 @@ The name and related link can be provided as well.
     ]
   },
   {
-    "DESCRIPTION": "",
+    "CATEGORY": "",
     "BOOKMARKS": [
       {
         "NAME": "Github",
@@ -68,7 +68,7 @@ The name and related link can be provided as well.
     ]
   },
   {
-    "DESCRIPTION": "Third",
+    "CATEGORY": "Third",
     "BOOKMARKS": [
       {
         "NAME": "Github",

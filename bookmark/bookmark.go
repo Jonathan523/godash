@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var Categories []Category
+var Entries []Entry
 
 const StorageDir = "storage/"
 const IconsDir = StorageDir + "icons/"
@@ -66,7 +66,7 @@ func readBookmarksFile() []byte {
 }
 
 func replaceIconString() {
-	for _, v := range Categories {
+	for _, v := range Entries {
 		for i, bookmark := range v.Bookmarks {
 			if !strings.Contains(bookmark.Icon, "http") {
 				v.Bookmarks[i].Icon = "/" + IconsDir + bookmark.Icon
@@ -77,7 +77,7 @@ func replaceIconString() {
 
 func parseBookmarks() {
 	byteValue := readBookmarksFile()
-	err := json.Unmarshal(byteValue, &Categories)
+	err := json.Unmarshal(byteValue, &Entries)
 	if err != nil {
 		logrus.WithField("file", bookmarksFile).Error(message.CannotParse.String())
 		return
@@ -106,7 +106,7 @@ func watchBookmarks() {
 					return
 				}
 				parseBookmarks()
-				logrus.WithField("bookmarks", len(Categories)).Trace(bookmarksFile + " changed")
+				logrus.WithField("bookmarks", len(Entries)).Trace(bookmarksFile + " changed")
 			}
 		}
 	}()

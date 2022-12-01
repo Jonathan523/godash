@@ -1,8 +1,8 @@
 package bookmark
 
-type Category struct {
-	Description string     `json:"description"`
-	Bookmarks   []Bookmark `json:"bookmarks"`
+type Entry struct {
+	Category  string     `json:"category"`
+	Bookmarks []Bookmark `json:"bookmarks"`
 }
 
 type Bookmark struct {

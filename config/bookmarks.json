@@ -1,6 +1,6 @@
 [
   {
-    "DESCRIPTION": "First",
+    "CATEGORY": "First",
     "BOOKMARKS": [
       {
         "NAME": "Github",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "DESCRIPTION": "",
+    "CATEGORY": "",
     "BOOKMARKS": [
       {
         "NAME": "Github",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "DESCRIPTION": "Third",
+    "CATEGORY": "Third",
     "BOOKMARKS": [
       {
         "NAME": "Github",

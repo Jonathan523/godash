@@ -15,10 +15,10 @@ import (
 
 func (server *Server) goDash(c context.Context, ctx *app.RequestContext) {
 	ctx.HTML(consts.StatusOK, "index.gohtml", utils.H{
-		"Title":      server.Title,
-		"Categories": bookmark.Categories,
-		"Weather":    weather.CurrentWeather,
-		"System":     system.Sys,
+		"Title":   server.Title,
+		"Entries": bookmark.Entries,
+		"Weather": weather.CurrentWeather,
+		"System":  system.Sys,
 	})
 }
 
