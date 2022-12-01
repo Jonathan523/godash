@@ -19,6 +19,6 @@
     @apply h-4 w-4 shrink-0 -mb-1 mr-2;
   }
   .extra-system-info {
-    @apply text-primary text-xs truncate font-thin tracking-wider;
+    @apply text-primary text-xs truncate;
   }
 }

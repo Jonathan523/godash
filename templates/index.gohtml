@@ -10,7 +10,7 @@
     {{ template "weatherIcons" . }}
 
 
-    <div class="flex items-center mb-8 md:mb-12 select-none">
+    <div class="flex items-center mb-6 md:mb-10 select-none">
       <svg class="h-12 w-12 shrink-0 mr-4 md:w-14 md:h-14">
         <use id="weatherIcon" xlink:href="#{{ .Weather.Icon }}"></use>
       </svg>
@@ -18,7 +18,7 @@
         <div class="text-4xl md:text-4xl">
           <span id="weatherTemp">{{ .Weather.Temp }}</span> {{ .Weather.Units }}
         </div>
-        <div class="flex items-center gap-5 text-xs font-thin tracking-wider">
+        <div class="flex items-center gap-5 text-xs">
           <div class="flex items-center">
             <svg class="extra-icon">
               <use xlink:href="#quote"></use>
@@ -52,7 +52,7 @@
     {{ template "systemIcons" . }}
 
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mb-8 md:mb-12 select-none">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mb-6 md:mb-10 select-none">
       <div class="flex items-center">
         <svg class="system-icon">
           <use xlink:href="#cpu"></use>
@@ -120,13 +120,13 @@
   {{ end }}
 
 
-  <div class="grid gap-8">
+  <div class="grid gap-6">
     {{ range .Entries }}
-      <div class="grid gap-4">
+      <div class="grid gap-[0.6rem]">
         {{ if .Category }}
-          <div class="text-lg text-primary font-thin tracking-wider select-none truncate">{{ .Category }}</div>
+          <div class="text-lg text-primary select-none truncate">{{ .Category }}</div>
         {{ end }}
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {{ range .Bookmarks }}
             <a
               href="{{ .Url }}"
