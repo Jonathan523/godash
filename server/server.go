@@ -19,7 +19,6 @@ func NewServer() {
 		hertz.WithRemoveExtraSlash(true),
 		hertz.WithRedirectTrailingSlash(true),
 		hertz.WithGetOnly(true),
-		hertz.WithAutoReloadRender(true, 0),
 	)
 	setupLogging()
 	server.setupMiddlewares()
