@@ -3,7 +3,7 @@ module godash
 go 1.19
 
 require (
-	github.com/cloudwego/hertz v0.4.1
+	github.com/cloudwego/hertz v0.4.2
 	github.com/dariubs/percent v1.0.0
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/hertz-contrib/gzip v0.0.1
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	github.com/andeya/goutil v0.0.0-20221116101011-706757703b3f // indirect
+	github.com/andeya/goutil v1.0.0 // indirect
 	github.com/bytedance/go-tagexpr/v2 v2.9.6 // indirect
 	github.com/bytedance/gopkg v0.0.0-20221122125632-68358b8ecec6 // indirect
 	github.com/bytedance/sonic v1.5.0 // indirect
@@ -27,7 +27,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/henrylee2cn/ameda v1.5.1 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.1 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.2 // indirect
 	github.com/lufia/plan9stats v0.0.0-20220913051719-115f729f3c8c // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/nyaruka/phonenumbers v1.1.4 // indirect
