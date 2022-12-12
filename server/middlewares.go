@@ -1,16 +1,18 @@
 package server
 
 import (
-	"context"
-	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/hertz-contrib/gzip"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/sirupsen/logrus"
 )
 
-func CacheMiddleware() app.HandlerFunc {
-	return func(ctx context.Context, c *app.RequestContext) {
-		c.Header("Cache-Control", "public, max-age=604800, immutable")
-	}
-}
 func (server *Server) setupMiddlewares() {
-	server.Router.Use(gzip.Gzip(gzip.DefaultCompression))
+	server.Router.Use(middleware.RealIP)
+	if logrus.GetLevel() == logrus.TraceLevel {
+		server.Router.Use(middleware.Logger)
+	}
+	server.Router.Use(middleware.Recoverer)
+	server.Router.Use(middleware.CleanPath)
+	server.Router.Use(middleware.RedirectSlashes)
+	server.Router.Use(middleware.AllowContentEncoding("deflate", "gzip"))
+	server.Router.Use(middleware.Compress(5, "text/html", "text/js", "text/css"))
 }

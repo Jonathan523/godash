@@ -1,13 +1,13 @@
 package server
 
 import (
-	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/hertz-contrib/websocket"
+	"github.com/gorilla/websocket"
+	"net/http"
 )
 
-var upgrader = websocket.HertzUpgrader{
-	CheckOrigin: func(ctx *app.RequestContext) bool {
-		return server.PageUrl == string(ctx.GetHeader("Origin"))
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return server.PageUrl == r.Header.Get("Origin")
 	},
 }
 

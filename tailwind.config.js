@@ -6,8 +6,15 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["winter", "halloween"],
-    logs: false,
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          primary: "#0047af",
+        },
+      },
+      "halloween",
+    ],
     darkTheme: "halloween",
   },
 };

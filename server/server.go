@@ -2,37 +2,29 @@ package server
 
 import (
 	"fmt"
-	hertz "github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"godash/config"
 	"godash/hub"
+	"godash/message"
+	"net/http"
 )
 
 var server = Server{}
 
-const TemplatesFolder = "templates/"
-
 func NewServer() {
 	config.ParseViperConfig(&server, config.AddViperConfig("server"))
-	server.Router = hertz.Default(
-		hertz.WithHostPorts(fmt.Sprintf(":%d", server.Port)),
-		hertz.WithRemoveExtraSlash(true),
-		hertz.WithRedirectTrailingSlash(true),
-		hertz.WithGetOnly(true),
-	)
-	setupLogging()
-	server.setupMiddlewares()
-	server.prepareHtml()
+	server.Router = chi.NewRouter()
 	server.Hub = hub.NewHub()
+	server.setupMiddlewares()
 	server.setupRouter()
 	server.Listen()
 }
 
-func (server *Server) prepareHtml() {
-	server.Router.LoadHTMLGlob(TemplatesFolder + "*")
-}
-
 func (server *Server) Listen() {
-	logrus.WithField("port", server.Port).Info("server starting")
-	server.Router.Spin()
+	logrus.WithField("port", server.Port).Info("application running")
+	err := http.ListenAndServe(fmt.Sprintf(":%d", server.Port), server.Router)
+	if err != nil {
+		logrus.WithField("error", err).Fatal(message.CannotStart.String())
+	}
 }

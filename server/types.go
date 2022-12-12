@@ -1,12 +1,12 @@
 package server
 
 import (
-	hertz "github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/go-chi/chi/v5"
 	"godash/hub"
 )
 
 type Server struct {
-	Router  *hertz.Hertz
+	Router  *chi.Mux
 	Hub     *hub.Hub
 	Port    int
 	PageUrl string `mapstructure:"PAGE_URL"`

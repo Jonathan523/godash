@@ -1,27 +1,24 @@
 package server
 
 import (
-	"context"
-	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"net/http"
 )
 
 func (server *Server) setupRouter() {
-	server.Router.GET("/", server.goDash)
-	server.Router.GET("/ws", webSocket)
+	server.Router.Get("/", server.goDash)
+	server.Router.Get("/ws", webSocket)
 
-	server.Router.NoMethod(func(c context.Context, ctx *app.RequestContext) {
-		ctx.Redirect(consts.StatusPermanentRedirect, []byte("/"))
-	})
-	server.Router.NoRoute(func(c context.Context, ctx *app.RequestContext) {
-		ctx.Redirect(consts.StatusPermanentRedirect, []byte("/"))
-	})
-
-	server.Router.Use(CacheMiddleware())
 	server.serveStatic("static")
 	server.serveStatic("storage/icons")
 
-	server.Router.GET("/robots.txt", func(c context.Context, ctx *app.RequestContext) {
-		ctx.String(consts.StatusOK, "User-agent: *\nDisallow: /")
+	server.Router.Get("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("User-agent: *\nDisallow: /"))
+	})
+	server.Router.Get("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/favicon/favicon.ico")
+	})
+
+	server.Router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	})
 }
