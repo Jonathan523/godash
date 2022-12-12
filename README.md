@@ -21,7 +21,7 @@ A blazing fast start-page for your services written in Go.
 
 Emulated Moto G4 with Lighthouse 9.6.6, using headless chromium 106.0.5249.103:
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse_v1.1.4.png" alt="lighthouse" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse_v1.2.3.png" alt="lighthouse" width="500"/>
 
 ## How to use
 
