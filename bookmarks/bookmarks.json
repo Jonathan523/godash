@@ -1,7 +1,7 @@
 [
   {
-    "CATEGORY": "First",
-    "BOOKMARKS": [
+    "DESCRIPTION": "First",
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -10,8 +10,8 @@
     ]
   },
   {
-    "CATEGORY": "",
-    "BOOKMARKS": [
+    "DESCRIPTION": "",
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -20,8 +20,8 @@
     ]
   },
   {
-    "CATEGORY": "Third",
-    "BOOKMARKS": [
+    "DESCRIPTION": "Third",
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",

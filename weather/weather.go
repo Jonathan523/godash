@@ -3,71 +3,70 @@ package weather
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sirupsen/logrus"
-	"godash/config"
-	"godash/hub"
+	"github.com/caarlos0/env/v6"
+	"go.uber.org/zap"
 	"io"
 	"math"
 	"net/http"
 	"time"
 )
 
-var Conf = PackageConfig{}
-var CurrentWeather = Weather{}
-
-func NewWeatherService() {
-	config.ParseViperConfig(&Conf, config.AddViperConfig("weather"))
-	if Conf.OpenWeather.Key != "" {
-		setWeatherUnits()
-		go updateWeather(time.Second * 90)
+func NewWeatherService(logging *zap.SugaredLogger) *weather {
+	var w = weather{log: logging}
+	if err := env.Parse(&w.config); err != nil {
+		panic(err)
 	}
+	if w.config.Key != "" {
+		w.setWeatherUnits()
+		go w.updateWeather(time.Second * 90)
+	}
+	return &w
 }
 
-func setWeatherUnits() {
-	if Conf.OpenWeather.Units == "imperial" {
-		CurrentWeather.Units = "°F"
+func (w *weather) setWeatherUnits() {
+	if w.config.Units == "imperial" {
+		w.CurrentWeather.Units = "°F"
 	} else {
-		CurrentWeather.Units = "°C"
+		w.CurrentWeather.Units = "°C"
 	}
 }
 
-func copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
+func (w *weather) copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
 	myTime := time.Unix(weatherResp.Sys.Sunrise, 0)
-	CurrentWeather.Sunrise = myTime.Format("15:04")
+	w.CurrentWeather.Sunrise = myTime.Format("15:04")
 	myTime = time.Unix(weatherResp.Sys.Sunset, 0)
-	CurrentWeather.Sunset = myTime.Format("15:04")
-	CurrentWeather.Icon = weatherResp.Weather[0].Icon
-	if Conf.OpenWeather.Digits {
-		CurrentWeather.Temp = weatherResp.Main.Temp
+	w.CurrentWeather.Sunset = myTime.Format("15:04")
+	w.CurrentWeather.Icon = weatherResp.Weather[0].Icon
+	if w.config.Digits {
+		w.CurrentWeather.Temp = weatherResp.Main.Temp
 	} else {
-		CurrentWeather.Temp = math.Round(weatherResp.Main.Temp)
+		w.CurrentWeather.Temp = math.Round(weatherResp.Main.Temp)
 	}
-	CurrentWeather.Description = weatherResp.Weather[0].Description
-	CurrentWeather.Humidity = weatherResp.Main.Humidity
+	w.CurrentWeather.Description = weatherResp.Weather[0].Description
+	w.CurrentWeather.Humidity = weatherResp.Main.Humidity
 }
 
-func updateWeather(interval time.Duration) {
+func (w *weather) updateWeather(interval time.Duration) {
 	var weatherResponse OpenWeatherApiResponse
 	for {
 		resp, err := http.Get(fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s&lang=%s",
-			Conf.Location.Latitude,
-			Conf.Location.Longitude,
-			Conf.OpenWeather.Key,
-			Conf.OpenWeather.Units,
-			Conf.OpenWeather.Lang))
+			w.config.Latitude,
+			w.config.Longitude,
+			w.config.Key,
+			w.config.Units,
+			w.config.Lang))
 		if err != nil || resp.StatusCode != 200 {
-			logrus.Error("weather cannot be updated, please check OPEN_WEATHER_KEY")
+			w.log.Error("weather cannot be updated, please check OPEN_WEATHER_KEY")
 		} else {
 			body, _ := io.ReadAll(resp.Body)
 			err = json.Unmarshal(body, &weatherResponse)
 			if err != nil {
-				logrus.Error("weather cannot be processed")
+				w.log.Error("weather cannot be processed")
 			} else {
-				copyWeatherValues(&weatherResponse)
-				logrus.WithFields(logrus.Fields{"temp": fmt.Sprintf("%0.2f%s", CurrentWeather.Temp, CurrentWeather.Units), "humidity": fmt.Sprintf("%d%s", CurrentWeather.Humidity, "%")}).Trace("weather updated")
+				w.copyWeatherValues(&weatherResponse)
+				w.log.Debugw("weather updated", "temp", w.CurrentWeather.Temp)
 			}
 			resp.Body.Close()
-			hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: CurrentWeather}
 		}
 		time.Sleep(interval)
 	}
