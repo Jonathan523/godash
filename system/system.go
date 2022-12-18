@@ -5,9 +5,10 @@ import (
 	"time"
 )
 
-func NewSystemService(logging *zap.SugaredLogger) {
+func NewSystemService(logging *zap.SugaredLogger) *System {
 	s := System{log: logging}
 	s.Initialize()
+	return &s
 }
 
 func (s *System) UpdateLiveInformation() {

@@ -41,23 +41,31 @@ func main() {
 	defer g.logger.Sync()
 	g.setupEchoLogging()
 
-	w := weather.NewWeatherService(g.logger)
-	b := bookmarks.NewBookmarkService(g.logger)
-	if g.config.LiveSystem {
-		system.NewSystemService(g.logger)
-	}
-
 	g.router.Use(middleware.Recover())
 	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	g.router.Pre(middleware.RemoveTrailingSlash())
+
+	w := weather.NewWeatherService(g.logger)
+	b := bookmarks.NewBookmarkService(g.logger)
+	var s *system.System
+	if g.config.LiveSystem {
+		s = system.NewSystemService(g.logger)
+	}
 
 	g.router.GET("/", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "index.gohtml", map[string]interface{}{
 			"Title":     g.config.Title,
 			"Weather":   w.CurrentWeather,
 			"Bookmarks": b.Categories,
+			"System":    s,
 		})
 	})
 	g.router.Static("/static", "static")
+	g.router.Static("/storage/icons", "storage/icons")
+
+	g.router.GET("/robots.txt", func(c echo.Context) error {
+		return c.String(http.StatusOK, "User-agent: *\nDisallow: /")
+	})
+
 	g.router.Logger.Fatal(g.router.Start(fmt.Sprintf(":%d", g.config.Port)))
 }
