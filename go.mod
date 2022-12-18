@@ -8,7 +8,6 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/shirou/gopsutil/v3 v3.22.11
-	github.com/sirupsen/logrus v1.9.0
 	github.com/unjx-de/go-folder v1.0.7
 	go.uber.org/zap v1.24.0
 )
