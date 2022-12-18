@@ -9,9 +9,9 @@ func (s *System) uptime() {
 	if err != nil {
 		return
 	}
-	s.Live.Uptime.Days = i.Uptime / 84600
-	s.Live.Uptime.Hours = uint16((i.Uptime % 86400) / 3600)
-	s.Live.Uptime.Minutes = uint16(((i.Uptime % 86400) % 3600) / 60)
-	s.Live.Uptime.Seconds = uint16(((i.Uptime % 86400) % 3600) % 60)
-	s.Live.Uptime.Percentage = float32((s.Live.Uptime.Minutes*100)+s.Live.Uptime.Seconds) / 60
+	s.CurrentSystem.Live.Uptime.Days = i.Uptime / 84600
+	s.CurrentSystem.Live.Uptime.Hours = uint16((i.Uptime % 86400) / 3600)
+	s.CurrentSystem.Live.Uptime.Minutes = uint16(((i.Uptime % 86400) % 3600) / 60)
+	s.CurrentSystem.Live.Uptime.Seconds = uint16(((i.Uptime % 86400) % 3600) % 60)
+	s.CurrentSystem.Live.Uptime.Percentage = float32((s.CurrentSystem.Live.Uptime.Minutes*100)+s.CurrentSystem.Live.Uptime.Seconds) / 60
 }

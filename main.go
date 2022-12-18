@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 	"godash/bookmarks"
+	"godash/hub"
 	"godash/system"
 	"godash/weather"
 	"html/template"
@@ -17,6 +18,7 @@ import (
 type goDash struct {
 	router *echo.Echo
 	logger *zap.SugaredLogger
+	hub    *hub.Hub
 	config config
 }
 
@@ -29,7 +31,7 @@ type config struct {
 }
 
 func main() {
-	g := goDash{router: echo.New()}
+	g := goDash{router: echo.New(), hub: hub.NewHub()}
 	g.router.Renderer = &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("templates/*.gohtml")),
 	}
@@ -45,11 +47,11 @@ func main() {
 	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	g.router.Pre(middleware.RemoveTrailingSlash())
 
-	w := weather.NewWeatherService(g.logger)
+	w := weather.NewWeatherService(g.logger, g.hub)
 	b := bookmarks.NewBookmarkService(g.logger)
 	var s *system.System
 	if g.config.LiveSystem {
-		s = system.NewSystemService(g.logger)
+		s = system.NewSystemService(g.logger, g.hub)
 	}
 
 	g.router.GET("/", func(c echo.Context) error {
@@ -57,9 +59,10 @@ func main() {
 			"Title":     g.config.Title,
 			"Weather":   w.CurrentWeather,
 			"Bookmarks": b.Categories,
-			"System":    s,
+			"System":    s.CurrentSystem,
 		})
 	})
+	g.router.GET("/ws", g.ws)
 	g.router.Static("/static", "static")
 	g.router.Static("/storage/icons", "storage/icons")
 

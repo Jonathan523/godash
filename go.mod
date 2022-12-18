@@ -6,6 +6,7 @@ require (
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/dariubs/percent v1.0.0
 	github.com/fsnotify/fsnotify v1.6.0
+	github.com/gorilla/websocket v1.5.0
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/shirou/gopsutil/v3 v3.22.11
 	github.com/unjx-de/go-folder v1.0.7

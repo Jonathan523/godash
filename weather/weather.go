@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"github.com/caarlos0/env/v6"
 	"go.uber.org/zap"
+	"godash/hub"
 	"io"
 	"math"
 	"net/http"
 	"time"
 )
 
-func NewWeatherService(logging *zap.SugaredLogger) *weather {
-	var w = weather{log: logging}
+func NewWeatherService(logging *zap.SugaredLogger, hub *hub.Hub) *weather {
+	var w = weather{log: logging, hub: hub}
 	if err := env.Parse(&w.config); err != nil {
 		panic(err)
 	}
@@ -67,6 +68,7 @@ func (w *weather) updateWeather(interval time.Duration) {
 				w.log.Debugw("weather updated", "temp", w.CurrentWeather.Temp)
 			}
 			resp.Body.Close()
+			w.hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: w.CurrentWeather}
 		}
 		time.Sleep(interval)
 	}

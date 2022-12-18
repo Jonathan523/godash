@@ -1,9 +1,17 @@
 package system
 
-import "go.uber.org/zap"
+import (
+	"go.uber.org/zap"
+	"godash/hub"
+)
 
 type System struct {
-	log    *zap.SugaredLogger
+	hub           *hub.Hub
+	log           *zap.SugaredLogger
+	CurrentSystem CurrentSystem
+}
+
+type CurrentSystem struct {
 	Live   LiveInformation   `json:"live"`
 	Static StaticInformation `json:"static"`
 }

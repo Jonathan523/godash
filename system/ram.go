@@ -26,6 +26,6 @@ func (s *System) liveRam() {
 	if err != nil {
 		return
 	}
-	s.Live.Ram.Value = readableSize(r.Used)
-	s.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(r.Used), float64(r.Total)))
+	s.CurrentSystem.Live.Ram.Value = readableSize(r.Used)
+	s.CurrentSystem.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(r.Used), float64(r.Total)))
 }

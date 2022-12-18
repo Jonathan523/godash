@@ -2,11 +2,12 @@ package system
 
 import (
 	"go.uber.org/zap"
+	"godash/hub"
 	"time"
 )
 
-func NewSystemService(logging *zap.SugaredLogger) *System {
-	s := System{log: logging}
+func NewSystemService(logging *zap.SugaredLogger, hub *hub.Hub) *System {
+	s := System{log: logging, hub: hub}
 	s.Initialize()
 	return &s
 }
@@ -17,15 +18,16 @@ func (s *System) UpdateLiveInformation() {
 		s.liveRam()
 		s.liveDisk()
 		s.uptime()
+		s.hub.LiveInformationCh <- hub.Message{WsType: hub.System, Message: s.CurrentSystem.Live}
 		time.Sleep(1 * time.Second)
 	}
 }
 
 func (s *System) Initialize() {
-	s.Static.Host = staticHost()
-	s.Static.CPU = staticCpu()
-	s.Static.Ram = staticRam()
-	s.Static.Disk = staticDisk()
+	s.CurrentSystem.Static.Host = staticHost()
+	s.CurrentSystem.Static.CPU = staticCpu()
+	s.CurrentSystem.Static.Ram = staticRam()
+	s.CurrentSystem.Static.Disk = staticDisk()
 	go s.UpdateLiveInformation()
-	s.log.Debugw("system updated", "cpu", s.Static.CPU.Name, "arch", s.Static.Host.Architecture)
+	s.log.Debugw("system updated", "cpu", s.CurrentSystem.Static.CPU.Name, "arch", s.CurrentSystem.Static.Host.Architecture)
 }

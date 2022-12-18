@@ -1,9 +1,13 @@
 package weather
 
-import "go.uber.org/zap"
+import (
+	"go.uber.org/zap"
+	"godash/hub"
+)
 
 type weather struct {
 	CurrentWeather OpenWeather
+	hub            *hub.Hub
 	config         config
 	log            *zap.SugaredLogger
 }
