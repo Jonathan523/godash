@@ -15,7 +15,7 @@ func (g *goDash) setupLogger() {
 		OutputPaths:      []string{"stdout"},
 		ErrorOutputPaths: []string{"stderr"},
 		EncoderConfig:    zap.NewProductionEncoderConfig(),
-	}.Build())
+	}.Build()).Sugar()
 }
 
 func (g *goDash) setupEchoLogging() {

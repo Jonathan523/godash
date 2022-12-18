@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 	"godash/bookmarks"
+	"godash/system"
 	"godash/weather"
 	"html/template"
 	"net/http"
@@ -15,7 +16,7 @@ import (
 
 type goDash struct {
 	router *echo.Echo
-	logger *zap.Logger
+	logger *zap.SugaredLogger
 	config config
 }
 
@@ -40,8 +41,11 @@ func main() {
 	defer g.logger.Sync()
 	g.setupEchoLogging()
 
-	w := weather.NewWeatherService(g.logger.Sugar())
-	b := bookmarks.NewBookmarkService(g.logger.Sugar())
+	w := weather.NewWeatherService(g.logger)
+	b := bookmarks.NewBookmarkService(g.logger)
+	if g.config.LiveSystem {
+		system.NewSystemService(g.logger)
+	}
 
 	g.router.Use(middleware.Recover())
 	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))

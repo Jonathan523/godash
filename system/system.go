@@ -1,20 +1,13 @@
 package system
 
 import (
-	"github.com/sirupsen/logrus"
-	"godash/config"
-	"godash/hub"
+	"go.uber.org/zap"
 	"time"
 )
 
-var Config = PackageConfig{}
-var Sys = System{}
-
-func NewSystemService() {
-	config.ParseViperConfig(&Config, config.AddViperConfig("system"))
-	if Config.LiveSystem {
-		Sys.Initialize()
-	}
+func NewSystemService(logging *zap.SugaredLogger) {
+	s := System{log: logging}
+	s.Initialize()
 }
 
 func (s *System) UpdateLiveInformation() {
@@ -23,7 +16,6 @@ func (s *System) UpdateLiveInformation() {
 		s.liveRam()
 		s.liveDisk()
 		s.uptime()
-		hub.LiveInformationCh <- hub.Message{WsType: hub.System, Message: s.Live}
 		time.Sleep(1 * time.Second)
 	}
 }
@@ -34,5 +26,5 @@ func (s *System) Initialize() {
 	s.Static.Ram = staticRam()
 	s.Static.Disk = staticDisk()
 	go s.UpdateLiveInformation()
-	logrus.WithFields(logrus.Fields{"cpu": s.Static.CPU.Name, "arch": s.Static.Host.Architecture}).Debug("system updated")
+	s.log.Debugw("system updated", "cpu", s.Static.CPU.Name, "arch", s.Static.Host.Architecture)
 }

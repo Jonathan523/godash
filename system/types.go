@@ -1,7 +1,11 @@
 package system
 
-type PackageConfig struct {
-	LiveSystem bool `mapstructure:"LIVE_SYSTEM"`
+import "go.uber.org/zap"
+
+type System struct {
+	log    *zap.SugaredLogger
+	Live   LiveInformation   `json:"live"`
+	Static StaticInformation `json:"static"`
 }
 
 type LiveStorageInformation struct {
@@ -48,9 +52,4 @@ type StaticInformation struct {
 	Ram  Ram  `json:"ram"`
 	Disk Disk `json:"disk"`
 	Host Host `json:"host"`
-}
-
-type System struct {
-	Live   LiveInformation   `json:"live"`
-	Static StaticInformation `json:"static"`
 }
