@@ -2,7 +2,7 @@
   "scripts": {
     "devTailwind": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
     "devGo": "nodemon --exec go run main.go --signal SIGTERM",
-    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css"
+    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --minify"
   },
   "devDependencies": {
     "daisyui": "^2.33.0",
