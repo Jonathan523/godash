@@ -56,7 +56,7 @@ func (g *goDash) setupMiddlewares() {
 	g.router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: g.config.AllowedHosts,
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-		AllowMethods: []string{echo.GET},
+		AllowMethods: []string{echo.GET, http.MethodHead},
 	}))
 }
 
