@@ -1,7 +1,7 @@
 [
   {
     "CATEGORY": "First",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -11,7 +11,7 @@
   },
   {
     "CATEGORY": "",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -21,7 +21,7 @@
   },
   {
     "CATEGORY": "Third",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",

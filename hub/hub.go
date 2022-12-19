@@ -1,8 +1,6 @@
 package hub
 
-import (
-	"github.com/sirupsen/logrus"
-)
+import "go.uber.org/zap"
 
 const (
 	Weather WsType = iota
@@ -19,27 +17,29 @@ type (
 	}
 
 	Hub struct {
-		Notifier       NotifierChan
-		NewClients     chan NotifierChan
-		ClosingClients chan NotifierChan
-		clients        map[NotifierChan]struct{}
+		LiveInformationCh chan Message
+		NewClients        chan NotifierChan
+		ClosingClients    chan NotifierChan
+		logger            *zap.SugaredLogger
+		notifier          NotifierChan
+		clients           map[NotifierChan]struct{}
 	}
 )
 
-var LiveInformationCh chan Message
-
-func NewHub() *Hub {
-	hub := Hub{}
-	LiveInformationCh = make(chan Message)
-	hub.Notifier = make(NotifierChan)
-	hub.NewClients = make(chan NotifierChan)
-	hub.ClosingClients = make(chan NotifierChan)
-	hub.clients = make(map[NotifierChan]struct{})
+func NewHub(logger *zap.SugaredLogger) *Hub {
+	hub := Hub{
+		LiveInformationCh: make(chan Message),
+		NewClients:        make(chan NotifierChan),
+		ClosingClients:    make(chan NotifierChan),
+		logger:            logger,
+		notifier:          make(NotifierChan),
+		clients:           make(map[NotifierChan]struct{}),
+	}
 	go hub.listen()
 	go func() {
 		for {
-			if msg, ok := <-LiveInformationCh; ok {
-				hub.Notifier <- msg
+			if msg, ok := <-hub.LiveInformationCh; ok {
+				hub.notifier <- msg
 			}
 		}
 	}()
@@ -51,11 +51,11 @@ func (h *Hub) listen() {
 		select {
 		case s := <-h.NewClients:
 			h.clients[s] = struct{}{}
-			logrus.WithField("openConnections", len(h.clients)).Trace("Websocket connection added")
+			h.logger.Debugw("websocket connection added", "total clients", len(h.clients))
 		case s := <-h.ClosingClients:
 			delete(h.clients, s)
-			logrus.WithField("openConnections", len(h.clients)).Trace("Websocket connection removed")
-		case event := <-h.Notifier:
+			h.logger.Debugw("websocket connection removed", "total clients", len(h.clients))
+		case event := <-h.notifier:
 			for client := range h.clients {
 				select {
 				case client <- event:

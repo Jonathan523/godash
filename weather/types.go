@@ -1,24 +1,27 @@
 package weather
 
-type PackageConfig struct {
-	Location    Location
-	OpenWeather OpenWeather `mapstructure:"OPEN_WEATHER"`
-	Current     OpenWeatherApiResponse
+import (
+	"go.uber.org/zap"
+	"godash/hub"
+)
+
+type Weather struct {
+	CurrentWeather OpenWeather
+	hub            *hub.Hub
+	config         config
+	log            *zap.SugaredLogger
 }
 
-type Location struct {
-	Latitude  float32
-	Longitude float32
+type config struct {
+	Latitude  float32 `env:"LOCATION_LATITUDE" envDefault:"48.780331609463815"`
+	Longitude float32 `env:"LOCATION_LONGITUDE" envDefault:"9.177968320179422"`
+	Key       string  `env:"WEATHER_KEY" envDefault:""`
+	Units     string  `env:"WEATHER_UNITS" envDefault:"metric"`
+	Lang      string  `env:"WEATHER_LANG" envDefault:"en"`
+	Digits    bool    `env:"WEATHER_DIGITS" envDefault:"true"`
 }
 
 type OpenWeather struct {
-	Key    string
-	Units  string
-	Lang   string
-	Digits bool
-}
-
-type Weather struct {
 	Icon        string  `json:"icon"`
 	Temp        float64 `json:"temp"`
 	Description string  `json:"description"`
@@ -29,7 +32,7 @@ type Weather struct {
 }
 
 type OpenWeatherApiResponse struct {
-	Weather []OpenWeatherApiWeather `json:"weather"`
+	Weather []OpenWeatherApiWeather `json:"Weather"`
 	Main    OpenWeatherApiMain      `json:"main"`
 	Sys     OpenWeatherApiSys       `json:"sys"`
 }

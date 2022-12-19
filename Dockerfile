@@ -28,9 +28,15 @@ COPY --from=logo /logo/logo.txt .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-COPY --from=go /backend/config/*.json ./config/
-COPY --from=go /backend/templates ./templates/
-COPY --from=go /backend/static ./static/
+# default bookmarks.json
+COPY --from=go /backend/bookmarks/bookmarks.json ./bookmarks/bookmarks.json
+# go templates
+COPY --from=go /backend/templates/ ./templates/
+# build static files and favicons
+COPY --from=go /backend/static/favicon/ ./static/favicon/
+COPY --from=go /backend/static/css/style.css ./static/css/style.css
+COPY --from=go /backend/static/js/app.min.js ./static/js/app.min.js
+# go executable
 COPY --from=go /backend/app .
 
 ENTRYPOINT ["/app/entrypoint.sh"]

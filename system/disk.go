@@ -24,6 +24,6 @@ func (s *System) liveDisk() {
 	if err != nil {
 		return
 	}
-	s.Live.Disk.Value = readableSize(d.Used)
-	s.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(d.Used), float64(d.Total)))
+	s.CurrentSystem.Live.Disk.Value = readableSize(d.Used)
+	s.CurrentSystem.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(d.Used), float64(d.Total)))
 }

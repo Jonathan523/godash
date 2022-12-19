@@ -205,6 +205,7 @@ Temporary Items
 # User specific
 .idea/
 static/css/style.css
+static/js/app.min.js
 storage/
 docs/
 templates/openapi/

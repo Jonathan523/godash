@@ -24,5 +24,5 @@ func (s *System) liveCpu() {
 	if err != nil {
 		return
 	}
-	s.Live.CPU = math.RoundToEven(p[0])
+	s.CurrentSystem.Live.CPU = math.RoundToEven(p[0])
 }

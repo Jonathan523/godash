@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./templates/**/*.gohtml"],
+  content: ["./templates/*.gohtml"],
   theme: {
     extend: {},
   },
@@ -9,12 +9,16 @@ module.exports = {
     themes: [
       {
         light: {
-          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
-          primary: "#0047af",
+          ...require("daisyui/src/colors/themes")["[data-theme=garden]"],
+          primary: "#f28c18",
+          secondary: "rgba(70,70,70,0.7)",
+        },
+        dark: {
+          ...require("daisyui/src/colors/themes")["[data-theme=halloween]"],
+          secondary: "#b9b9b9",
         },
       },
-      "halloween",
     ],
-    darkTheme: "halloween",
+    darkTheme: "dark",
   },
 };

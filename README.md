@@ -44,7 +44,7 @@ The name and related link can be provided as well.
 [
   {
     "CATEGORY": "First",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -59,7 +59,7 @@ The name and related link can be provided as well.
   },
   {
     "CATEGORY": "",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -69,7 +69,7 @@ The name and related link can be provided as well.
   },
   {
     "CATEGORY": "Third",
-    "BOOKMARKS": [
+    "ENTRIES": [
       {
         "NAME": "Github",
         "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -84,17 +84,17 @@ The name and related link can be provided as well.
 
 ```toml
 PORT = 4000
-PAGE_URL = "http://localhost:4000"
+ALLOWED_HOSTS = "*"
 TITLE = "GoDash"
 
 LOG_LEVEL = "info"
 
 LOCATION_LATITUDE = 48.780331609463815
 LOCATION_LONGITUDE = 9.177968320179422
-OPEN_WEATHER_KEY = ""
-OPEN_WEATHER_UNITS = "metric"
-OPEN_WEATHER_LANG = "en"
-OPEN_WEATHER_DIGITS = true
+WEATHER_KEY = ""
+WEATHER_UNITS = "metric"
+WEATHER_LANG = "en"
+WEATHER_DIGITS = true
 
 LIVE_SYSTEM = true
 ```
@@ -115,21 +115,22 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - PAGE_URL=https://home.example.com
+      # allowed hosts for cors, seperated by comma
+      - ALLOWED_HOSTS=https://home.example.com,https://another.example.com
       # change title to something else
       - TITLE=GoDash
-      # available log-levels: trace,debug,info,warn,error,fatal,panic
+      # available log-levels: debug,info,warn,error,panic,fatal
       - LOG_LEVEL=info
       # create account here to get free key:
       # https://home.openweathermap.org/users/sign_up
       # remove to disable weather
-      - OPEN_WEATHER_KEY=thisIsNoFunctioningKey
+      - WEATHER_KEY=thisIsNoFunctioningKey
       # standard, metric or imperial
-      - OPEN_WEATHER_UNITS=metric
+      - WEATHER_UNITS=metric
       # https://openweathermap.org/current#multi
-      - OPEN_WEATHER_LANG=en
+      - WEATHER_LANG=en
       # Temp is normally xx.xx, can be rounded to xx if desired
-      - OPEN_WEATHER_DIGITS=true
+      - WEATHER_DIGITS=true
       # location is needed for weather
       - LOCATION_LATITUDE=48.644929601442485
       - LOCATION_LONGITUDE=9.349618464869025

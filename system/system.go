@@ -1,20 +1,18 @@
 package system
 
 import (
-	"github.com/sirupsen/logrus"
-	"godash/config"
+	"go.uber.org/zap"
 	"godash/hub"
 	"time"
 )
 
-var Config = PackageConfig{}
-var Sys = System{}
-
-func NewSystemService() {
-	config.ParseViperConfig(&Config, config.AddViperConfig("system"))
-	if Config.LiveSystem {
-		Sys.Initialize()
+func NewSystemService(enabled bool, logging *zap.SugaredLogger, hub *hub.Hub) *System {
+	var s System
+	if enabled {
+		s = System{log: logging, hub: hub}
+		s.Initialize()
 	}
+	return &s
 }
 
 func (s *System) UpdateLiveInformation() {
@@ -23,16 +21,16 @@ func (s *System) UpdateLiveInformation() {
 		s.liveRam()
 		s.liveDisk()
 		s.uptime()
-		hub.LiveInformationCh <- hub.Message{WsType: hub.System, Message: s.Live}
+		s.hub.LiveInformationCh <- hub.Message{WsType: hub.System, Message: s.CurrentSystem.Live}
 		time.Sleep(1 * time.Second)
 	}
 }
 
 func (s *System) Initialize() {
-	s.Static.Host = staticHost()
-	s.Static.CPU = staticCpu()
-	s.Static.Ram = staticRam()
-	s.Static.Disk = staticDisk()
+	s.CurrentSystem.Static.Host = staticHost()
+	s.CurrentSystem.Static.CPU = staticCpu()
+	s.CurrentSystem.Static.Ram = staticRam()
+	s.CurrentSystem.Static.Disk = staticDisk()
 	go s.UpdateLiveInformation()
-	logrus.WithFields(logrus.Fields{"cpu": s.Static.CPU.Name, "arch": s.Static.Host.Architecture}).Debug("system updated")
+	s.log.Debugw("system updated", "cpu", s.CurrentSystem.Static.CPU.Name, "arch", s.CurrentSystem.Static.Host.Architecture)
 }
