@@ -13,12 +13,12 @@
     @apply h-8 w-8 shrink-0 mr-3 opacity-90;
   }
   .extra-icon {
-    @apply h-3 w-3 shrink-0 mr-2;
+    @apply h-3 w-3 shrink-0 mr-2 text-primary;
   }
   .extra-sun-icon {
-    @apply h-4 w-4 shrink-0 -mb-1 mr-2;
+    @apply h-4 w-4 shrink-0 -mb-1 mr-2 text-primary;
   }
   .extra-system-info {
-    @apply text-primary text-xs truncate;
+    @apply text-xs truncate;
   }
 }
