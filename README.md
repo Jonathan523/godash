@@ -84,7 +84,7 @@ The name and related link can be provided as well.
 
 ```toml
 PORT = 4000
-PAGE_URL = "http://localhost:4000"
+ALLOWED_HOSTS = "*"
 TITLE = "GoDash"
 
 LOG_LEVEL = "info"
@@ -115,7 +115,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - PAGE_URL=https://home.example.com
+      # allowed hosts for cors, seperated by comma
+      - ALLOWED_HOSTS=https://home.example.com,https://another.example.com
       # change title to something else
       - TITLE=GoDash
       # available log-levels: debug,info,warn,error,panic,fatal

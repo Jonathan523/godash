@@ -13,7 +13,6 @@ import (
 	"godash/weather"
 	"html/template"
 	"net/http"
-	"net/url"
 	"os"
 	"os/signal"
 	"time"
@@ -34,11 +33,11 @@ type info struct {
 }
 
 type config struct {
-	Title      string  `env:"TITLE" envDefault:"goDash"`
-	Port       int     `env:"PORT" envDefault:"4000"`
-	PageUrl    url.URL `env:"PAGE_URL" envDefault:"http://localhost:4000"`
-	LogLevel   string  `env:"LOG_LEVEL" envDefault:"info"`
-	LiveSystem bool    `env:"LIVE_SYSTEM" envDefault:"true"`
+	Title        string   `env:"TITLE" envDefault:"goDash"`
+	Port         int      `env:"PORT" envDefault:"4000"`
+	AllowedHosts []string `env:"ALLOWED_HOSTS" envDefault:"*" envSeparator:","`
+	LogLevel     string   `env:"LOG_LEVEL" envDefault:"info"`
+	LiveSystem   bool     `env:"LIVE_SYSTEM" envDefault:"true"`
 }
 
 func (g *goDash) createInfoServices() {
@@ -48,6 +47,17 @@ func (g *goDash) createInfoServices() {
 		bookmarks: bookmarks.NewBookmarkService(g.logger),
 		system:    system.NewSystemService(g.config.LiveSystem, g.logger, g.hub),
 	}
+}
+
+func (g *goDash) setupMiddlewares() {
+	g.router.Use(middleware.Recover())
+	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
+	g.router.Pre(middleware.RemoveTrailingSlash())
+	g.router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: g.config.AllowedHosts,
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{echo.GET},
+	}))
 }
 
 func main() {
@@ -64,11 +74,7 @@ func main() {
 		_ = logger.Sync()
 	}(g.logger)
 	g.setupEchoLogging()
-
-	g.router.Use(middleware.Recover())
-	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
-	g.router.Pre(middleware.RemoveTrailingSlash())
-
+	g.setupMiddlewares()
 	g.createInfoServices()
 	g.router.GET("/", g.index)
 	g.router.GET("/ws", g.ws)
