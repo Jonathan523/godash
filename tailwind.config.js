@@ -9,7 +9,7 @@ module.exports = {
     themes: [
       {
         light: {
-          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          ...require("daisyui/src/colors/themes")["[data-theme=garden]"],
           primary: "#f28c18",
           secondary: "rgba(70,70,70,0.7)",
         },
