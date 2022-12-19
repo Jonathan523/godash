@@ -10,10 +10,13 @@ module.exports = {
       {
         light: {
           ...require("daisyui/src/colors/themes")["[data-theme=light]"],
-          primary: "#0047af",
+          primary: "#d07915",
+        },
+        halloween: {
+          ...require("daisyui/src/colors/themes")["[data-theme=halloween]"],
+          primary: "#d07915",
         },
       },
-      "halloween",
     ],
     darkTheme: "halloween",
   },
