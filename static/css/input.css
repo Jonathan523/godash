@@ -10,15 +10,15 @@
     @apply bg-primary-content h-1 rounded-full mt-1;
   }
   .system-icon {
-    @apply h-8 w-8 shrink-0 mr-3 opacity-90;
+    @apply h-8 w-8 shrink-0 mr-3 opacity-90 text-secondary;
   }
   .extra-icon {
-    @apply h-3 w-3 shrink-0 mr-2 text-primary;
+    @apply h-3 w-3 shrink-0 mr-2 text-secondary;
   }
   .extra-sun-icon {
-    @apply h-4 w-4 shrink-0 -mb-1 mr-2 text-primary;
+    @apply h-4 w-4 shrink-0 -mb-1 mr-2 text-secondary;
   }
   .extra-system-info {
-    @apply text-xs truncate;
+    @apply text-xs truncate text-secondary;
   }
 }
