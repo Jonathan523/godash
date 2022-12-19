@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/caarlos0/env/v6"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 	"godash/bookmarks"
 	"godash/hub"
@@ -49,15 +48,10 @@ func (g *goDash) createInfoServices() {
 	}
 }
 
-func (g *goDash) setupMiddlewares() {
-	g.router.Use(middleware.Recover())
-	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
-	g.router.Pre(middleware.RemoveTrailingSlash())
-	g.router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: g.config.AllowedHosts,
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-		AllowMethods: []string{echo.GET, http.MethodHead},
-	}))
+func (g *goDash) startServer() {
+	if err := g.router.Start(fmt.Sprintf(":%d", g.config.Port)); err != nil && err != http.ErrServerClosed {
+		g.logger.Fatal("shutting down the server")
+	}
 }
 
 func main() {
@@ -76,19 +70,12 @@ func main() {
 	g.setupEchoLogging()
 	g.setupMiddlewares()
 	g.createInfoServices()
-	g.router.GET("/", g.index)
-	g.router.GET("/ws", g.ws)
-	g.router.GET("/robots.txt", robots)
-	g.router.Static("/static", "static")
-	g.router.Static("/storage/icons", "storage/icons")
-	g.router.RouteNotFound("/*", redirectHome)
+	g.setupRouter()
 
-	go func() {
-		if err := g.router.Start(fmt.Sprintf(":%d", g.config.Port)); err != nil && err != http.ErrServerClosed {
-			g.logger.Fatal("shutting down the server")
-		}
-	}()
+	go g.startServer()
 	g.logger.Infof("running on %s:%d", "http://localhost", g.config.Port)
+
+	// handle graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
