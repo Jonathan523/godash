@@ -6,9 +6,12 @@ import (
 	"time"
 )
 
-func NewSystemService(logging *zap.SugaredLogger, hub *hub.Hub) *System {
-	s := System{log: logging, hub: hub}
-	s.Initialize()
+func NewSystemService(enabled bool, logging *zap.SugaredLogger, hub *hub.Hub) *System {
+	var s System
+	if enabled {
+		s = System{log: logging, hub: hub}
+		s.Initialize()
+	}
 	return &s
 }
 

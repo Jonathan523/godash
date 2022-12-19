@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/caarlos0/env/v6"
 	"github.com/labstack/echo/v4"
@@ -13,6 +14,9 @@ import (
 	"html/template"
 	"net/http"
 	"net/url"
+	"os"
+	"os/signal"
+	"time"
 )
 
 type goDash struct {
@@ -20,6 +24,13 @@ type goDash struct {
 	logger *zap.SugaredLogger
 	hub    *hub.Hub
 	config config
+	info   info
+}
+
+type info struct {
+	weather   *weather.Weather
+	bookmarks *bookmarks.Bookmarks
+	system    *system.System
 }
 
 type config struct {
@@ -30,8 +41,17 @@ type config struct {
 	LiveSystem bool    `env:"LIVE_SYSTEM" envDefault:"true"`
 }
 
+func (g *goDash) createInfoServices() {
+	g.hub = hub.NewHub(g.logger)
+	g.info = info{
+		weather:   weather.NewWeatherService(g.logger, g.hub),
+		bookmarks: bookmarks.NewBookmarkService(g.logger),
+		system:    system.NewSystemService(g.config.LiveSystem, g.logger, g.hub),
+	}
+}
+
 func main() {
-	g := goDash{router: echo.New(), hub: hub.NewHub()}
+	g := goDash{router: echo.New()}
 	g.router.Renderer = &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("templates/*.gohtml")),
 	}
@@ -40,35 +60,35 @@ func main() {
 	}
 
 	g.setupLogger()
-	defer g.logger.Sync()
+	defer func(logger *zap.SugaredLogger) {
+		_ = logger.Sync()
+	}(g.logger)
 	g.setupEchoLogging()
 
 	g.router.Use(middleware.Recover())
 	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	g.router.Pre(middleware.RemoveTrailingSlash())
 
-	w := weather.NewWeatherService(g.logger, g.hub)
-	b := bookmarks.NewBookmarkService(g.logger)
-	var s *system.System
-	if g.config.LiveSystem {
-		s = system.NewSystemService(g.logger, g.hub)
-	}
-
-	g.router.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index.gohtml", map[string]interface{}{
-			"Title":     g.config.Title,
-			"Weather":   w.CurrentWeather,
-			"Bookmarks": b.Categories,
-			"System":    s.CurrentSystem,
-		})
-	})
+	g.createInfoServices()
+	g.router.GET("/", g.index)
 	g.router.GET("/ws", g.ws)
+	g.router.GET("/robots.txt", robots)
 	g.router.Static("/static", "static")
 	g.router.Static("/storage/icons", "storage/icons")
+	g.router.RouteNotFound("/*", redirectHome)
 
-	g.router.GET("/robots.txt", func(c echo.Context) error {
-		return c.String(http.StatusOK, "User-agent: *\nDisallow: /")
-	})
-
-	g.router.Logger.Fatal(g.router.Start(fmt.Sprintf(":%d", g.config.Port)))
+	go func() {
+		if err := g.router.Start(fmt.Sprintf(":%d", g.config.Port)); err != nil && err != http.ErrServerClosed {
+			g.logger.Fatal("shutting down the server")
+		}
+	}()
+	g.logger.Infof("running on %s:%d", "http://localhost", g.config.Port)
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	if err := g.router.Shutdown(ctx); err != nil {
+		g.logger.Fatal(err)
+	}
 }

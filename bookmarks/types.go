@@ -8,8 +8,8 @@ type Bookmarks struct {
 }
 
 type Category struct {
-	Description string  `json:"description"`
-	Entries     []Entry `json:"entries"`
+	Category string  `json:"category"`
+	Entries  []Entry `json:"entries"`
 }
 
 type Entry struct {

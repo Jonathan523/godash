@@ -20,4 +20,5 @@ func (g *goDash) setupLogger() {
 
 func (g *goDash) setupEchoLogging() {
 	g.router.HideBanner = true
+	g.router.HidePort = true
 }

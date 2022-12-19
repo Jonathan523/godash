@@ -121,10 +121,10 @@
 
 
   <div class="grid gap-4">
-    {{ range .Bookmarks }}
+    {{ range .Categories }}
       <div class="grid gap-1">
-        {{ if .Description }}
-          <div class="text-lg text-primary select-none truncate">{{ .Description }}</div>
+        {{ if .Category }}
+          <div class="text-lg text-primary select-none truncate">{{ .Category }}</div>
         {{ end }}
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {{ range .Entries }}

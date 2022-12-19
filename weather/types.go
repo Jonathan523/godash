@@ -5,7 +5,7 @@ import (
 	"godash/hub"
 )
 
-type weather struct {
+type Weather struct {
 	CurrentWeather OpenWeather
 	hub            *hub.Hub
 	config         config
@@ -32,7 +32,7 @@ type OpenWeather struct {
 }
 
 type OpenWeatherApiResponse struct {
-	Weather []OpenWeatherApiWeather `json:"weather"`
+	Weather []OpenWeatherApiWeather `json:"Weather"`
 	Main    OpenWeatherApiMain      `json:"main"`
 	Sys     OpenWeatherApiSys       `json:"sys"`
 }

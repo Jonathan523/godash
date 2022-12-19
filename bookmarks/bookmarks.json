@@ -1,6 +1,6 @@
 [
   {
-    "DESCRIPTION": "First",
+    "CATEGORY": "First",
     "ENTRIES": [
       {
         "NAME": "Github",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "DESCRIPTION": "",
+    "CATEGORY": "",
     "ENTRIES": [
       {
         "NAME": "Github",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "DESCRIPTION": "Third",
+    "CATEGORY": "Third",
     "ENTRIES": [
       {
         "NAME": "Github",

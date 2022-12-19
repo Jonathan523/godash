@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-func NewWeatherService(logging *zap.SugaredLogger, hub *hub.Hub) *weather {
-	var w = weather{log: logging, hub: hub}
+func NewWeatherService(logging *zap.SugaredLogger, hub *hub.Hub) *Weather {
+	var w = Weather{log: logging, hub: hub}
 	if err := env.Parse(&w.config); err != nil {
 		panic(err)
 	}
@@ -24,7 +24,7 @@ func NewWeatherService(logging *zap.SugaredLogger, hub *hub.Hub) *weather {
 	return &w
 }
 
-func (w *weather) setWeatherUnits() {
+func (w *Weather) setWeatherUnits() {
 	if w.config.Units == "imperial" {
 		w.CurrentWeather.Units = "°F"
 	} else {
@@ -32,7 +32,7 @@ func (w *weather) setWeatherUnits() {
 	}
 }
 
-func (w *weather) copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
+func (w *Weather) copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
 	myTime := time.Unix(weatherResp.Sys.Sunrise, 0)
 	w.CurrentWeather.Sunrise = myTime.Format("15:04")
 	myTime = time.Unix(weatherResp.Sys.Sunset, 0)
@@ -47,7 +47,7 @@ func (w *weather) copyWeatherValues(weatherResp *OpenWeatherApiResponse) {
 	w.CurrentWeather.Humidity = weatherResp.Main.Humidity
 }
 
-func (w *weather) updateWeather(interval time.Duration) {
+func (w *Weather) updateWeather(interval time.Duration) {
 	var weatherResponse OpenWeatherApiResponse
 	for {
 		resp, err := http.Get(fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s&lang=%s",
@@ -57,7 +57,7 @@ func (w *weather) updateWeather(interval time.Duration) {
 			w.config.Units,
 			w.config.Lang))
 		if err != nil || resp.StatusCode != 200 {
-			w.log.Error("weather cannot be updated, please check OPEN_WEATHER_KEY")
+			w.log.Error("weather cannot be updated, please check WEATHER_KEY")
 		} else {
 			body, _ := io.ReadAll(resp.Body)
 			err = json.Unmarshal(body, &weatherResponse)
