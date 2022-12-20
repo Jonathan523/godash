@@ -28,8 +28,8 @@ COPY --from=logo /logo/logo.txt .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-# default bookmarks.json
-COPY --from=go /backend/bookmarks/bookmarks.json ./bookmarks/bookmarks.json
+# default config.yaml
+COPY --from=go /backend/bookmarks/config.yaml ./bookmarks/config.yaml
 # go templates
 COPY --from=go /backend/templates/ ./templates/
 # build static files and favicons
