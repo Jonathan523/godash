@@ -21,7 +21,7 @@ A blazing fast start-page for your services written in Go.
 
 Emulated Moto G4 with Lighthouse 9.6.6, using headless chromium 106.0.5249.103:
 
-<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse_v1.2.3.png" alt="lighthouse" width="500"/>
+<img style="border-radius:0.5rem" src="https://filedn.eu/lhdsENsife1QUzPddOpRjb5/godash/lighthouse_v2.0.1.png" alt="lighthouse" width="500"/>
 
 ## How to use
 
@@ -30,7 +30,7 @@ The Weather is fetched over a [Current Weather Api Call](https://openweathermap.
 If you don't want to see the weather, do not provide a key as environment variable.
 Please refer to the available options as shown in the docker-compose example.
 
-### Example of the bookmarks.json
+### Example of the config.yaml
 
 All Bookmarks are read from a file called `config.yaml` located inside the `./storage` folder.
 The application will create a default file at startup and will automatically look for changes inside the file.
@@ -130,7 +130,7 @@ services:
       # show live system information
       - LIVE_SYSTEM=true
     volumes:
-      # to mount the bookmarks.json and the icons folder on the system
+      # to mount the config.yaml and the icons folder on the system
       - ./storage:/app/storage
     # https://docs.docker.com/compose/compose-file/compose-file-v3/#ports
     ports:
