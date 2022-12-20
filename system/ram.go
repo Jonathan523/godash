@@ -21,11 +21,11 @@ func staticRam() Ram {
 	return result
 }
 
-func (s *System) liveRam() {
+func (c *Config) liveRam() {
 	r, err := mem.VirtualMemory()
 	if err != nil {
 		return
 	}
-	s.CurrentSystem.Live.Ram.Value = readableSize(r.Used)
-	s.CurrentSystem.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(r.Used), float64(r.Total)))
+	c.System.Live.Ram.Value = readableSize(r.Used)
+	c.System.Live.Ram.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(r.Used), float64(r.Total)))
 }

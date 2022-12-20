@@ -13,10 +13,10 @@ var (
 
 func (g *goDash) index(c echo.Context) error {
 	return c.Render(http.StatusOK, "index.gohtml", map[string]interface{}{
-		"Title":      g.config.Title,
-		"Weather":    g.info.weather.CurrentWeather,
-		"Categories": g.info.bookmarks.Categories,
-		"System":     g.info.system.CurrentSystem,
+		"Title":   g.config.Title,
+		"Weather": g.info.weather.CurrentWeather,
+		"Parsed":  g.info.bookmarks.Parsed,
+		"System":  g.info.system,
 	})
 }
 

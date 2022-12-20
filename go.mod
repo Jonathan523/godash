@@ -11,6 +11,7 @@ require (
 	github.com/shirou/gopsutil/v3 v3.22.11
 	github.com/unjx-de/go-folder v1.0.7
 	go.uber.org/zap v1.24.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

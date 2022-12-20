@@ -15,7 +15,7 @@ module.exports = {
         },
         dark: {
           ...require("daisyui/src/colors/themes")["[data-theme=halloween]"],
-          secondary: "#b9b9b9",
+          secondary: "#a0a0a0",
         },
       },
     ],

@@ -5,13 +5,13 @@ import (
 	"godash/hub"
 )
 
-type System struct {
-	hub           *hub.Hub
-	log           *zap.SugaredLogger
-	CurrentSystem CurrentSystem
+type Config struct {
+	hub    *hub.Hub
+	log    *zap.SugaredLogger
+	System System
 }
 
-type CurrentSystem struct {
+type System struct {
 	Live   LiveInformation   `json:"live"`
 	Static StaticInformation `json:"static"`
 }

@@ -19,10 +19,10 @@ func staticCpu() CPU {
 	return p
 }
 
-func (s *System) liveCpu() {
+func (c *Config) liveCpu() {
 	p, err := cpu.Percent(0, false)
 	if err != nil {
 		return
 	}
-	s.CurrentSystem.Live.CPU = math.RoundToEven(p[0])
+	c.System.Live.CPU = math.RoundToEven(p[0])
 }

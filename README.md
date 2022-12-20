@@ -32,52 +32,45 @@ Please refer to the available options as shown in the docker-compose example.
 
 ### Example of the bookmarks.json
 
-All Bookmarks are read from a file called `bookmarks.json` located inside the `./storage` folder.
+All Bookmarks are read from a file called `config.yaml` located inside the `./storage` folder.
 The application will create a default file at startup and will automatically look for changes inside the file.
 Changes are printed in stdout when running with `LOG_LEVEL=trace`.
 
 You can specify an icon of a bookmark either by using a link or by using the name of the file located inside the `./storage/icons` folder that is mounted via the docker compose file.
 The name and related link can be provided as well.
 
-**bookmarks.json example:**
-```json
-[
-  {
-    "CATEGORY": "First",
-    "ENTRIES": [
-      {
-        "NAME": "Github",
-        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        "URL": "https://github.com"
-      },
-      {
-        "NAME": "Jenkins",
-        "ICON": "jenkins.webp",
-        "URL": "https://www.jenkins.io/"
-      }
-    ]
-  },
-  {
-    "CATEGORY": "",
-    "ENTRIES": [
-      {
-        "NAME": "Github",
-        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        "URL": "https://github.com"
-      }
-    ]
-  },
-  {
-    "CATEGORY": "Third",
-    "ENTRIES": [
-      {
-        "NAME": "Github",
-        "ICON": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        "URL": "https://github.com"
-      }
-    ]
-  }
-]
+**config.yaml example:**
+```yaml
+links:
+  - category: "Code"
+    entries:
+      - name: "Github"
+        url: "https://github.com"
+  - category: "CI/CD"
+    entries:
+      - name: "Jenkins"
+        url: "https://www.jenkins.io/"
+  - category: "Server"
+    entries:
+      - name: "bwCloud"
+        url: "https://portal.bw-cloud.org"
+
+applications:
+  - category: "Code"
+    entries:
+      - name: "Github"
+        icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        url: "https://github.com"
+  - category: ""
+    entries:
+      - name: "Jenkins"
+        icon: "https://www.jenkins.io/images/logos/jenkins/Jenkins-stop-the-war.svg"
+        url: "https://www.jenkins.io/"
+  - category: "Server"
+    entries:
+      - name: "bwCloud"
+        icon: "https://portal.bw-cloud.org/static/dashboard/img/logo-splash.svg"
+        url: "https://portal.bw-cloud.org"
 ```
 
 ### Available environment variables with default values

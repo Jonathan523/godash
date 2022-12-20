@@ -19,11 +19,11 @@ func staticDisk() Disk {
 	return result
 }
 
-func (s *System) liveDisk() {
+func (c *Config) liveDisk() {
 	d, err := disk.Usage("/")
 	if err != nil {
 		return
 	}
-	s.CurrentSystem.Live.Disk.Value = readableSize(d.Used)
-	s.CurrentSystem.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(d.Used), float64(d.Total)))
+	c.System.Live.Disk.Value = readableSize(d.Used)
+	c.System.Live.Disk.Percentage = math.RoundToEven(percent.PercentOfFloat(float64(d.Used), float64(d.Total)))
 }

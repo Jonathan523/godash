@@ -27,7 +27,7 @@ type goDash struct {
 
 type info struct {
 	weather   *weather.Weather
-	bookmarks *bookmarks.Bookmarks
+	bookmarks *bookmarks.Config
 	system    *system.System
 }
 
@@ -62,6 +62,8 @@ func main() {
 	if err := env.Parse(&g.config); err != nil {
 		panic(err)
 	}
+
+	g.router.Debug = true
 
 	g.setupLogger()
 	defer func(logger *zap.SugaredLogger) {

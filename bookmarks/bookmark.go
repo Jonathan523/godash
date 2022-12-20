@@ -1,10 +1,10 @@
 package bookmarks
 
 import (
-	"encoding/json"
 	"github.com/fsnotify/fsnotify"
 	folderCreate "github.com/unjx-de/go-folder"
 	"go.uber.org/zap"
+	"gopkg.in/yaml.v3"
 	"io"
 	"os"
 	"strings"
@@ -13,60 +13,60 @@ import (
 const StorageDir = "storage/"
 const IconsDir = StorageDir + "icons/"
 const bookmarksFolder = "bookmarks/"
-const bookmarksFile = "bookmarks.json"
+const bookmarksFile = "config.yaml"
 
-func NewBookmarkService(logging *zap.SugaredLogger) *Bookmarks {
-	b := Bookmarks{log: logging}
+func NewBookmarkService(logging *zap.SugaredLogger) *Config {
+	b := Config{log: logging}
 	b.createFolderStructure()
 	b.parseBookmarks()
 	go b.watchBookmarks()
 	return &b
 }
 
-func (b *Bookmarks) createFolderStructure() {
+func (c *Config) createFolderStructure() {
 	folders := []string{StorageDir, IconsDir}
 	err := folderCreate.CreateFolders(folders, 0755)
 	if err != nil {
-		b.log.Fatal(err)
+		c.log.Fatal(err)
 	}
-	b.log.Debug("folders created")
+	c.log.Debugw("folders created", "folders", folders)
 }
 
-func (b *Bookmarks) copyDefaultBookmarks() {
+func (c *Config) copyDefaultBookmarks() {
 	source, _ := os.Open(bookmarksFolder + bookmarksFile)
 	defer source.Close()
 	destination, err := os.Create(StorageDir + bookmarksFile)
 	if err != nil {
-		b.log.Error(err)
+		c.log.Error(err)
 	}
 	defer destination.Close()
 	_, err = io.Copy(destination, source)
 	if err != nil {
-		b.log.Error(err)
+		c.log.Error(err)
 	}
 }
 
-func (b *Bookmarks) readBookmarksFile() []byte {
-	jsonFile, err := os.Open(StorageDir + bookmarksFile)
+func (c *Config) readBookmarksFile() []byte {
+	file, err := os.Open(StorageDir + bookmarksFile)
 	if err != nil {
-		b.copyDefaultBookmarks()
-		jsonFile, err = os.Open(StorageDir + bookmarksFile)
+		c.copyDefaultBookmarks()
+		file, err = os.Open(StorageDir + bookmarksFile)
 		if err != nil {
-			b.log.Error(err)
+			c.log.Error(err)
 			return nil
 		}
 	}
-	defer jsonFile.Close()
-	byteValue, err := io.ReadAll(jsonFile)
+	defer file.Close()
+	byteValue, err := io.ReadAll(file)
 	if err != nil {
-		b.log.Error(err)
+		c.log.Error(err)
 		return nil
 	}
 	return byteValue
 }
 
-func (b *Bookmarks) replaceIconString() {
-	for _, v := range b.Categories {
+func (c *Config) replaceIconString() {
+	for _, v := range c.Parsed.Applications {
 		for i, bookmark := range v.Entries {
 			if !strings.Contains(bookmark.Icon, "http") {
 				v.Entries[i].Icon = "/" + IconsDir + bookmark.Icon
@@ -75,20 +75,20 @@ func (b *Bookmarks) replaceIconString() {
 	}
 }
 
-func (b *Bookmarks) parseBookmarks() {
-	byteValue := b.readBookmarksFile()
-	err := json.Unmarshal(byteValue, &b.Categories)
+func (c *Config) parseBookmarks() {
+	byteValue := c.readBookmarksFile()
+	err := yaml.Unmarshal(byteValue, &c.Parsed)
 	if err != nil {
-		b.log.Error(err)
+		c.log.Error(err)
 		return
 	}
-	b.replaceIconString()
+	c.replaceIconString()
 }
 
-func (b *Bookmarks) watchBookmarks() {
+func (c *Config) watchBookmarks() {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		b.log.Error(err)
+		c.log.Error(err)
 	}
 	defer watcher.Close()
 	done := make(chan bool)
@@ -96,23 +96,17 @@ func (b *Bookmarks) watchBookmarks() {
 	go func() {
 		for {
 			select {
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
-				b.log.Error(err)
-			case _, ok := <-watcher.Events:
-				if !ok {
-					return
-				}
-				b.parseBookmarks()
-				b.log.Debug("bookmarks changed", "categories", len(b.Categories))
+			case err, _ := <-watcher.Errors:
+				c.log.Error(err)
+			case _, _ = <-watcher.Events:
+				c.parseBookmarks()
+				c.log.Debug("bookmarks changed", "applications", len(c.Parsed.Applications), "links", len(c.Parsed.Links))
 			}
 		}
 	}()
 
 	if err := watcher.Add(StorageDir + bookmarksFile); err != nil {
-		b.log.Fatal()
+		c.log.Fatal()
 	}
 	<-done
 }
