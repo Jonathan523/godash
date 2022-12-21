@@ -13,14 +13,15 @@ import (
 const StorageDir = "storage/"
 const IconsDir = StorageDir + "icons/"
 const bookmarksFolder = "bookmarks/"
-const bookmarksFile = "config.yaml"
+const configFile = "config.yaml"
 
 func NewBookmarkService(logging *zap.SugaredLogger) *Config {
-	b := Config{log: logging}
-	b.createFolderStructure()
-	b.parseBookmarks()
-	go b.watchBookmarks()
-	return &b
+	c := Config{log: logging}
+	c.createFolderStructure()
+	c.copyDefaultConfigIfNotExisting()
+	c.parseBookmarks()
+	go c.watchBookmarks()
+	return &c
 }
 
 func (c *Config) createFolderStructure() {
@@ -32,29 +33,34 @@ func (c *Config) createFolderStructure() {
 	c.log.Debugw("folders created", "folders", folders)
 }
 
-func (c *Config) copyDefaultBookmarks() {
-	source, _ := os.Open(bookmarksFolder + bookmarksFile)
-	defer source.Close()
-	destination, err := os.Create(StorageDir + bookmarksFile)
+func (c *Config) copyDefaultConfigIfNotExisting() {
+	_, err := os.Open(StorageDir + configFile)
 	if err != nil {
-		c.log.Error(err)
-	}
-	defer destination.Close()
-	_, err = io.Copy(destination, source)
-	if err != nil {
-		c.log.Error(err)
+		c.log.Debug(configFile + " not existing, creating...")
+		source, _ := os.Open(bookmarksFolder + configFile)
+		defer source.Close()
+		destination, err := os.Create(StorageDir + configFile)
+		if err != nil {
+			c.log.Error(err)
+			return
+		}
+		defer destination.Close()
+		_, err = io.Copy(destination, source)
+		if err != nil {
+			c.log.Error(err)
+			return
+		}
+		c.log.Debug(configFile + " created")
+	} else {
+		c.log.Debug(configFile + " existing, skipping creation")
 	}
 }
 
 func (c *Config) readBookmarksFile() []byte {
-	file, err := os.Open(StorageDir + bookmarksFile)
+	file, err := os.Open(StorageDir + configFile)
 	if err != nil {
-		c.copyDefaultBookmarks()
-		file, err = os.Open(StorageDir + bookmarksFile)
-		if err != nil {
-			c.log.Error(err)
-			return nil
-		}
+		c.log.Error(err)
+		return nil
 	}
 	defer file.Close()
 	byteValue, err := io.ReadAll(file)
@@ -105,7 +111,7 @@ func (c *Config) watchBookmarks() {
 		}
 	}()
 
-	if err := watcher.Add(StorageDir + bookmarksFile); err != nil {
+	if err := watcher.Add(StorageDir + configFile); err != nil {
 		c.log.Fatal()
 	}
 	<-done
