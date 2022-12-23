@@ -92,6 +92,12 @@ WEATHER_DIGITS = true
 LIVE_SYSTEM = true
 ```
 
+## Heartbeat
+
+```/health```
+
+Heartbeat endpoint can be useful to setting up a load balancers or an external uptime testing service that can make a request before hitting any routes.
+
 ## A docker-compose example:
 
 ```yaml
