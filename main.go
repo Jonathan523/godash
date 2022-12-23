@@ -54,17 +54,19 @@ func (g *goDash) startServer() {
 	}
 }
 
-func main() {
-	g := goDash{router: echo.New()}
+func (g *goDash) setupTemplateRender() {
 	g.router.Renderer = &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("templates/*.gohtml")),
 	}
+}
+
+func main() {
+	g := goDash{router: echo.New()}
 	if err := env.Parse(&g.config); err != nil {
 		panic(err)
 	}
 
-	g.router.Debug = true
-
+	g.setupTemplateRender()
 	g.setupLogger()
 	defer func(logger *zap.SugaredLogger) {
 		_ = logger.Sync()
