@@ -1,6 +1,7 @@
 package main
 
 import (
+	chiMiddleware "github.com/go-chi/chi/v5/middleware"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"
@@ -14,9 +15,10 @@ func longCacheLifetime(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 func (g *goDash) setupMiddlewares() {
-	g.router.Use(middleware.Recover())
-	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	g.router.Pre(middleware.RemoveTrailingSlash())
+	g.router.Use(echo.WrapMiddleware(chiMiddleware.Heartbeat("/health")))
+	g.router.Use(middleware.Recover())
+	g.router.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 1}))
 	g.router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: g.config.AllowedHosts,
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderCacheControl},
