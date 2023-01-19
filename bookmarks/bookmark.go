@@ -102,11 +102,11 @@ func (c *Config) watchBookmarks() {
 	go func() {
 		for {
 			select {
-			case err, _ := <-watcher.Errors:
-				c.log.Error(err)
-			case _, _ = <-watcher.Events:
+			case _ = <-watcher.Events:
 				c.parseBookmarks()
 				c.log.Debug("bookmarks changed", "applications", len(c.Parsed.Applications), "links", len(c.Parsed.Links))
+			case err := <-watcher.Errors:
+				c.log.Error(err)
 			}
 		}
 	}()
