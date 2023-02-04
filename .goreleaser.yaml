@@ -6,8 +6,9 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - windows
-      - darwin
+    goarch:
+      - amd64
+      - arm64
 dockers:
   - use: buildx
     goos: linux
@@ -30,22 +31,33 @@ dockers:
       - package-lock.json
       - static
       - templates
-archives:
-  - format: tar.gz
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-    format_overrides:
-      - goos: windows
-        format: zip
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "unjxde/godash:latest"
+      - "unjxde/godash:v{{ .Major }}"
+      - "unjxde/godash:{{ .Tag }}"
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+    extra_files:
+      - entrypoint.sh
+      - bookmarks/config.yaml
+      - tailwind.config.js
+      - package.json
+      - package-lock.json
+      - static
+      - templates
 checksum:
   name_template: "checksums.txt"
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+source:
+  enabled: true
 changelog:
   sort: asc
   filters:
