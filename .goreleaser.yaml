@@ -47,12 +47,12 @@ dockers:
 docker_manifests:
   - name_template: "unjxde/{{ .ProjectName }}:v{{ .Tag }}"
     image_templates:
-      - "unjxde/{{ .ProjectName }}:{{ .Version }}-amd64"
-      - "unjxde/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+      - "unjxde/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "unjxde/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
   - name_template: "unjxde/{{ .ProjectName }}:v{{ .Major }}"
     image_templates:
-      - "unjxde/{{ .ProjectName }}:{{ .Version }}-amd64"
-      - "unjxde/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+      - "unjxde/{{ .ProjectName }}:{{ .Major }}-amd64"
+      - "unjxde/{{ .ProjectName }}:{{ .Major }}-arm64v8"
   - name_template: "unjxde/{{ .ProjectName }}:latest"
     image_templates:
       - "unjxde/{{ .ProjectName }}:latest-amd64"
