@@ -10,9 +10,9 @@ builds:
       - darwin
 dockers:
   - image_templates:
-      - "ghcr.io/flohoss/godash:latest"
-      - "ghcr.io/flohoss/godash:v{{ .Major }}"
-      - "ghcr.io/flohoss/godash:{{ .Tag }}"
+      - "unjxde/godash:latest"
+      - "unjxde/godash:v{{ .Major }}"
+      - "unjxde/godash:{{ .Tag }}"
     extra_files:
       - entrypoint.sh
       - bookmarks/config.yaml
