@@ -25,6 +25,7 @@ dockers:
     extra_files:
       - entrypoint.sh
       - bookmarks/config.yaml
+      - tailwind.config.js
       - package.json
       - package-lock.json
       - static

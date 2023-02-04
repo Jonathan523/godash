@@ -5,7 +5,9 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
+COPY templates/ ./templates/
 COPY static/ ./static/
+COPY tailwind.config.js .
 RUN npm run build
 
 FROM alpine AS logo
