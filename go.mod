@@ -9,7 +9,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/gorilla/websocket v1.5.0
 	github.com/labstack/echo/v4 v4.10.0
-	github.com/shirou/gopsutil/v3 v3.22.12
+	github.com/shirou/gopsutil/v3 v3.23.1
 	github.com/unjx-de/go-folder v1.0.7
 	go.uber.org/zap v1.24.0
 	gopkg.in/yaml.v3 v3.0.1
