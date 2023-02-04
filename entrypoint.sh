@@ -1,7 +1,7 @@
 #!/bin/sh
 
 cat logo.txt
-APP=app
+APP=godash
 
 if [ -n "$PUID" ] || [ -n "$PGID" ]; then
   USER=appuser

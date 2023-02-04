@@ -1,9 +1,5 @@
-FROM golang:alpine AS go
-RUN apk add nodejs npm
-WORKDIR /backend
-
-COPY ./go.mod .
-RUN go mod download
+FROM node:alpine AS build
+WORKDIR /build
 
 COPY ./package.json .
 COPY ./package-lock.json .
@@ -11,7 +7,6 @@ RUN npm install
 
 COPY . .
 RUN npm run build
-RUN go build -o app
 
 FROM alpine AS logo
 RUN apk add figlet
@@ -29,14 +24,14 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 # default config.yaml
-COPY --from=go /backend/bookmarks/config.yaml ./bookmarks/config.yaml
+COPY --from=build /build/bookmarks/config.yaml ./bookmarks/config.yaml
 # go templates
-COPY --from=go /backend/templates/ ./templates/
+COPY --from=build /build/templates/ ./templates/
 # build static files and favicons
-COPY --from=go /backend/static/favicon/ ./static/favicon/
-COPY --from=go /backend/static/css/style.css ./static/css/style.css
-COPY --from=go /backend/static/js/app.min.js ./static/js/app.min.js
+COPY --from=build /build/static/favicon/ ./static/favicon/
+COPY --from=build /build/static/css/style.css ./static/css/style.css
+COPY --from=build /build/static/js/app.min.js ./static/js/app.min.js
 # go executable
-COPY --from=go /backend/app .
+COPY godash .
 
 ENTRYPOINT ["/app/entrypoint.sh"]

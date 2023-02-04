@@ -209,3 +209,5 @@ static/js/app.min.js
 storage/
 docs/
 templates/openapi/
+
+dist/
