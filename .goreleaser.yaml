@@ -14,15 +14,11 @@ dockers:
     goos: linux
     goarch: amd64
     image_templates:
-      - "unjxde/godash:latest"
-      - "unjxde/godash:v{{ .Major }}"
-      - "unjxde/godash:{{ .Tag }}"
+      - "unjxde/{{ .ProjectName }}:latest-amd64"
+      - "unjxde/{{ .ProjectName }}:v{{ .Major }}-amd64"
+      - "unjxde/{{ .ProjectName }}:{{ .Tag }}-amd64"
     build_flag_templates:
       - "--platform=linux/amd64"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
     extra_files:
       - entrypoint.sh
       - bookmarks/config.yaml
@@ -35,15 +31,11 @@ dockers:
     goos: linux
     goarch: arm64
     image_templates:
-      - "unjxde/godash:latest"
-      - "unjxde/godash:v{{ .Major }}"
-      - "unjxde/godash:{{ .Tag }}"
+      - "unjxde/{{ .ProjectName }}:latest-arm64v8"
+      - "unjxde/{{ .ProjectName }}:v{{ .Major }}-arm64v8"
+      - "unjxde/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
     build_flag_templates:
-      - "--platform=linux/amd64"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/arm64/v8"
     extra_files:
       - entrypoint.sh
       - bookmarks/config.yaml
@@ -52,12 +44,23 @@ dockers:
       - package-lock.json
       - static
       - templates
+docker_manifests:
+  - name_template: "unjxde/{{ .ProjectName }}:v{{ .Tag }}"
+    image_templates:
+      - "unjxde/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "unjxde/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+  - name_template: "unjxde/{{ .ProjectName }}:v{{ .Major }}"
+    image_templates:
+      - "unjxde/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "unjxde/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+  - name_template: "unjxde/{{ .ProjectName }}:latest"
+    image_templates:
+      - "unjxde/{{ .ProjectName }}:latest-amd64"
+      - "unjxde/{{ .ProjectName }}:latest-arm64v8"
 checksum:
   name_template: "checksums.txt"
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
-source:
-  enabled: true
 changelog:
   sort: asc
   filters:
