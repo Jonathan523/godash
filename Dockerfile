@@ -5,9 +5,9 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
+COPY tailwind.config.js .
 COPY templates/ ./templates/
 COPY static/ ./static/
-COPY tailwind.config.js .
 RUN npm run build
 
 FROM alpine AS logo
@@ -18,7 +18,7 @@ RUN figlet GoDash > logo.txt
 
 FROM alpine AS final
 RUN apk add tzdata
-WORKDIR /app
+WORKDIR /godash
 
 COPY --from=logo /logo/logo.txt .
 
@@ -36,4 +36,4 @@ COPY --from=build /build/static/js/app.min.js ./static/js/app.min.js
 # go executable
 COPY godash .
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/godash/entrypoint.sh"]
