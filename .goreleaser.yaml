@@ -13,6 +13,13 @@ dockers:
       - "ghcr.io/flohoss/godash:latest"
       - "ghcr.io/flohoss/godash:v{{ .Major }}"
       - "ghcr.io/flohoss/godash:{{ .Tag }}"
+    extra_files:
+      - entrypoint.sh
+      - bookmarks/config.yaml
+      - package.json
+      - package-lock.json
+      - static
+      - templates
 archives:
   - format: tar.gz
     name_template: >-

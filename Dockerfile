@@ -1,11 +1,11 @@
 FROM node:alpine AS build
 WORKDIR /build
 
-COPY ./package.json .
-COPY ./package-lock.json .
+COPY package.json .
+COPY package-lock.json .
 RUN npm install
 
-COPY . .
+COPY static/ ./static/
 RUN npm run build
 
 FROM alpine AS logo
@@ -24,9 +24,9 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 # default config.yaml
-COPY --from=build /build/bookmarks/config.yaml ./bookmarks/config.yaml
+COPY bookmarks/config.yaml ./bookmarks/config.yaml
 # go templates
-COPY --from=build /build/templates/ ./templates/
+COPY templates/ ./templates/
 # build static files and favicons
 COPY --from=build /build/static/favicon/ ./static/favicon/
 COPY --from=build /build/static/css/style.css ./static/css/style.css
