@@ -18,7 +18,7 @@ RUN figlet GoDash > logo.txt
 
 FROM alpine AS final
 RUN apk add tzdata
-WORKDIR /godash
+WORKDIR /app
 
 COPY --from=logo /logo/logo.txt .
 
@@ -36,4 +36,4 @@ COPY --from=build /build/static/js/app.min.js ./static/js/app.min.js
 # go executable
 COPY godash .
 
-ENTRYPOINT ["/godash/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]

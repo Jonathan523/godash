@@ -1,11 +1,10 @@
 #!/bin/sh
 
 cat logo.txt
-APP=godash
 
 if [ -n "$PUID" ] || [ -n "$PGID" ]; then
   USER=appuser
-  HOME=/"$APP"
+  HOME=/app
 
   if ! grep -q "$USER" /etc/passwd; then
     # Usage: addgroup [-g GID] [-S] [USER] GROUP
@@ -27,8 +26,8 @@ if [ -n "$PUID" ] || [ -n "$PGID" ]; then
 
   chown "$USER":"$USER" "$HOME" -R
   printf "UID: %s GID: %s\n\n" "$PUID" "$PGID"
-  exec su -c - $USER ./"$APP"
+  exec su -c - $USER ./godash
 else
   printf "WARNING: Running docker as root\n\n"
-  exec ./"$APP"
+  exec ./godash
 fi
