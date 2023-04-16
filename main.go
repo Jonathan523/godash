@@ -1,20 +1,23 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"github.com/caarlos0/env/v6"
-	"github.com/labstack/echo/v4"
-	"go.uber.org/zap"
 	"godash/bookmarks"
 	"godash/hub"
 	"godash/system"
 	"godash/weather"
+
+	"context"
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
+
+	"github.com/caarlos0/env/v6"
+	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
 )
 
 type goDash struct {
@@ -56,7 +59,7 @@ func (g *goDash) startServer() {
 
 func (g *goDash) setupTemplateRender() {
 	g.router.Renderer = &TemplateRenderer{
-		templates: template.Must(template.ParseGlob("templates/*.gohtml")),
+		templates: template.Must(template.ParseGlob("templates/*.html")),
 	}
 }
 
@@ -79,9 +82,9 @@ func main() {
 	go g.startServer()
 	g.logger.Infof("running on %s:%d", "http://localhost", g.config.Port)
 
-	// handle graceful shutdown
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
+	// https://docs.docker.com/engine/reference/commandline/stop/
+	signal.Notify(quit, syscall.SIGTERM)
 	<-quit
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()

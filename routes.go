@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/gorilla/websocket"
-	"github.com/labstack/echo/v4"
 	"godash/hub"
 	"net/http"
+
+	"github.com/gorilla/websocket"
+	"github.com/labstack/echo/v4"
 )
 
 var (
@@ -12,7 +13,7 @@ var (
 )
 
 func (g *goDash) index(c echo.Context) error {
-	return c.Render(http.StatusOK, "index.gohtml", map[string]interface{}{
+	return c.Render(http.StatusOK, "index.html", map[string]interface{}{
 		"Title":   g.config.Title,
 		"Weather": g.info.weather.CurrentWeather,
 		"Parsed":  g.info.bookmarks.Parsed,
