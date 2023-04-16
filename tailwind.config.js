@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./templates/*.gohtml"],
+  content: ["./templates/*.html"],
   theme: {
-    extend: {},
+    container: {
+      center: true
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
