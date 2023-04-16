@@ -3,12 +3,10 @@
     "buildJavascript": "./static/js/app.js"
   },
   "scripts": {
-    "watch": "npm-watch",
-    "devTailwind": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch",
-    "buildTailwind": "npx tailwindcss -i ./static/css/input.css -o ./static/css/style.css --minify",
-    "buildJavascript": "terser ./static/js/app.js -o ./static/js/app.min.js -c -m",
-    "dev": "bash -c \"npm run devTailwind &npm run watch\"",
-    "build": "npm run buildTailwind && npm run buildJavascript"
+    "tailwind:dev": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/style.css --watch",
+    "tailwind:build": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/style.css --minify",
+    "js:build": "terser ./static/js/app.js -o ./static/js/app.min.js -c -m",
+    "build": "yarn run tailwind:build && yarn run js:build"
   },
   "devDependencies": {
     "daisyui": "^2.33.0",

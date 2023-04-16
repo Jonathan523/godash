@@ -2,13 +2,13 @@ FROM node:alpine AS build
 WORKDIR /build
 
 COPY package.json .
-COPY package-lock.json .
-RUN npm install
+COPY yarn.lock .
+RUN yarn install
 
 COPY tailwind.config.js .
 COPY templates/ ./templates/
 COPY static/ ./static/
-RUN npm run build
+RUN yarn run build
 
 FROM alpine AS logo
 RUN apk add figlet
