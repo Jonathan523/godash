@@ -24,7 +24,7 @@ dockers:
       - bookmarks/config.yaml
       - tailwind.config.js
       - package.json
-      - package-lock.json
+      - yarn.lock
       - static
       - templates
   - use: buildx
@@ -41,7 +41,7 @@ dockers:
       - bookmarks/config.yaml
       - tailwind.config.js
       - package.json
-      - package-lock.json
+      - yarn.lock
       - static
       - templates
 docker_manifests:
