@@ -1,13 +1,13 @@
 package weather
 
 import (
+	"github.com/r3labs/sse/v2"
 	"go.uber.org/zap"
-	"godash/hub"
 )
 
 type Weather struct {
 	CurrentWeather OpenWeather
-	hub            *hub.Hub
+	sse            *sse.Server
 	config         config
 	log            *zap.SugaredLogger
 }

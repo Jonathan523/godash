@@ -1,12 +1,12 @@
 package system
 
 import (
+	"github.com/r3labs/sse/v2"
 	"go.uber.org/zap"
-	"godash/hub"
 )
 
 type Config struct {
-	hub    *hub.Hub
+	sse    *sse.Server
 	log    *zap.SugaredLogger
 	System System
 }

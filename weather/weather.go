@@ -3,17 +3,18 @@ package weather
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/caarlos0/env/v6"
-	"go.uber.org/zap"
-	"godash/hub"
 	"io"
 	"math"
 	"net/http"
 	"time"
+
+	"github.com/caarlos0/env/v6"
+	"github.com/r3labs/sse/v2"
+	"go.uber.org/zap"
 )
 
-func NewWeatherService(logging *zap.SugaredLogger, hub *hub.Hub) *Weather {
-	var w = Weather{log: logging, hub: hub}
+func NewWeatherService(logging *zap.SugaredLogger, sse *sse.Server) *Weather {
+	var w = Weather{log: logging, sse: sse}
 	if err := env.Parse(&w.config); err != nil {
 		panic(err)
 	}
@@ -68,7 +69,8 @@ func (w *Weather) updateWeather(interval time.Duration) {
 				w.log.Debugw("weather updated", "temp", w.CurrentWeather.Temp)
 			}
 			resp.Body.Close()
-			w.hub.LiveInformationCh <- hub.Message{WsType: hub.Weather, Message: w.CurrentWeather}
+			json, _ := json.Marshal(w.CurrentWeather)
+			w.sse.Publish("weather", &sse.Event{Data: json})
 		}
 		time.Sleep(interval)
 	}

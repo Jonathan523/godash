@@ -1,15 +1,17 @@
 package system
 
 import (
-	"go.uber.org/zap"
-	"godash/hub"
+	"encoding/json"
 	"time"
+
+	"github.com/r3labs/sse/v2"
+	"go.uber.org/zap"
 )
 
-func NewSystemService(enabled bool, logging *zap.SugaredLogger, hub *hub.Hub) *System {
+func NewSystemService(enabled bool, logging *zap.SugaredLogger, sse *sse.Server) *System {
 	var s Config
 	if enabled {
-		s = Config{log: logging, hub: hub}
+		s = Config{log: logging, sse: sse}
 		s.Initialize()
 	}
 	return &s.System
@@ -21,7 +23,8 @@ func (c *Config) UpdateLiveInformation() {
 		c.liveRam()
 		c.liveDisk()
 		c.uptime()
-		c.hub.LiveInformationCh <- hub.Message{WsType: hub.System, Message: c.System.Live}
+		json, _ := json.Marshal(c.System.Live)
+		c.sse.Publish("system", &sse.Event{Data: json})
 		time.Sleep(1 * time.Second)
 	}
 }

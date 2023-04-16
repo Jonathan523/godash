@@ -9,6 +9,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/gorilla/websocket v1.5.0
 	github.com/labstack/echo/v4 v4.10.2
+	github.com/r3labs/sse/v2 v2.10.0
 	github.com/shirou/gopsutil/v3 v3.23.3
 	github.com/unjx-de/go-folder v1.0.7
 	go.uber.org/zap v1.24.0
@@ -37,4 +38,5 @@ require (
 	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
+	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 )

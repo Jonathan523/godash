@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
 	"html/template"
 	"io"
+
+	"github.com/labstack/echo/v4"
 )
 
 type TemplateRenderer struct {
@@ -11,8 +12,5 @@ type TemplateRenderer struct {
 }
 
 func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	if viewContext, isMap := data.(map[string]interface{}); isMap {
-		viewContext["reverse"] = c.Echo().Reverse
-	}
-	return t.templates.ExecuteTemplate(w, name, data)
+	return t.templates.ExecuteTemplate(w, "layout.html", data)
 }

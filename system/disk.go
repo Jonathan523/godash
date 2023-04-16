@@ -1,10 +1,11 @@
 package system
 
 import (
-	"github.com/dariubs/percent"
-	"github.com/shirou/gopsutil/v3/disk"
 	"math"
 	"strconv"
+
+	"github.com/dariubs/percent"
+	"github.com/shirou/gopsutil/v3/disk"
 )
 
 func staticDisk() Disk {
@@ -14,6 +15,9 @@ func staticDisk() Disk {
 		return result
 	}
 	p, err := disk.Partitions(false)
+	if err != nil {
+		return result
+	}
 	result.Total = readableSize(d.Total)
 	result.Partitions = strconv.Itoa(len(p)) + " partitions"
 	return result

@@ -2,7 +2,6 @@ package main
 
 import (
 	"godash/bookmarks"
-	"godash/hub"
 	"godash/system"
 	"godash/weather"
 
@@ -17,13 +16,14 @@ import (
 
 	"github.com/caarlos0/env/v6"
 	"github.com/labstack/echo/v4"
+	"github.com/r3labs/sse/v2"
 	"go.uber.org/zap"
 )
 
 type goDash struct {
 	router *echo.Echo
 	logger *zap.SugaredLogger
-	hub    *hub.Hub
+	sse    *sse.Server
 	config config
 	info   info
 }
@@ -43,11 +43,13 @@ type config struct {
 }
 
 func (g *goDash) createInfoServices() {
-	g.hub = hub.NewHub(g.logger)
+	g.sse.AutoReplay = false
+	g.sse.CreateStream("system")
+	g.sse.CreateStream("weather")
 	g.info = info{
-		weather:   weather.NewWeatherService(g.logger, g.hub),
+		weather:   weather.NewWeatherService(g.logger, g.sse),
 		bookmarks: bookmarks.NewBookmarkService(g.logger),
-		system:    system.NewSystemService(g.config.LiveSystem, g.logger, g.hub),
+		system:    system.NewSystemService(g.config.LiveSystem, g.logger, g.sse),
 	}
 }
 
@@ -64,16 +66,14 @@ func (g *goDash) setupTemplateRender() {
 }
 
 func main() {
-	g := goDash{router: echo.New()}
+	g := goDash{router: echo.New(), sse: sse.New()}
 	if err := env.Parse(&g.config); err != nil {
 		panic(err)
 	}
 
 	g.setupTemplateRender()
 	g.setupLogger()
-	defer func(logger *zap.SugaredLogger) {
-		_ = logger.Sync()
-	}(g.logger)
+	defer g.logger.Sync()
 	g.setupEchoLogging()
 	g.setupMiddlewares()
 	g.createInfoServices()
