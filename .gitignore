@@ -211,3 +211,4 @@ docs/
 templates/openapi/
 
 dist/
+tmp/

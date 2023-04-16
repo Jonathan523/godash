@@ -1,0 +1,16 @@
+services:
+  godash:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: godash
+    restart: always
+    entrypoint: air --build.exclude_dir "node_modules,static,docs,storage,tmp,dist"
+    environment:
+      - TZ=Europe/Berlin
+      - LOG_LEVEL=debug
+      - TITLE=DEV
+    ports:
+      - 4000:4000
+    volumes:
+      - ./:/app/:rw
