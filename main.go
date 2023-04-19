@@ -14,6 +14,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Masterminds/sprig/v3"
 	"github.com/caarlos0/env/v6"
 	"github.com/labstack/echo/v4"
 	"github.com/r3labs/sse/v2"
@@ -61,7 +62,7 @@ func (g *goDash) startServer() {
 
 func (g *goDash) setupTemplateRender() {
 	g.router.Renderer = &TemplateRenderer{
-		templates: template.Must(template.ParseGlob("templates/*.html")),
+		templates: template.Must(template.New("").Funcs(sprig.FuncMap()).ParseGlob("templates/*.html")),
 	}
 }
 
