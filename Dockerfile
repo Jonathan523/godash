@@ -31,4 +31,9 @@ COPY --from=build /build/static/favicon/ ./static/favicon/
 COPY --from=build /build/static/css/style.css ./static/css/style.css
 COPY godash .
 
+ARG VERSION
+ENV VERSION=$VERSION
+ARG DATE
+ENV DATE=$DATE
+
 ENTRYPOINT ["/app/entrypoint.sh"]
